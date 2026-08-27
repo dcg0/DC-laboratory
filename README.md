@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/dcg0/DC-laboratory/main/logo.jpg" alt="D-C laboratory" width="400" style="border-radius:16px;box-shadow:0 0 30px rgba(0,204,255,.3);">
+  <img src="https://raw.githubusercontent.com/dcg0/DC-laboratory/main/banner.jpg" alt="D-C laboratory" width="100%" style="border-radius:12px;">
 </p>
 
 <h1 align="center">⚡ D-C laboratory</h1>
@@ -34,3 +34,4 @@ Laboratorio de desarrollo tecnológico — soluciones integrales en ingeniería 
 <p align="center">
   <strong>D-C laboratory © 2026 — Código abierto • Innovación constante</strong>
 </p>
+
