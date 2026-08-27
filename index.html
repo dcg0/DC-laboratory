@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D-C laboratory | Proyectos</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+        :root{
+            --fondo:#020205;
+            --panel:#080a15;
+            --borde:#0f1a30;
+            --azul-oscuro:#003366;
+            --azul-neon:#00ccff;
+            --azul-brillo:#33eeff;
+            --texto:#e0f0ff;
+            --texto-tenue:#88b0d0;
+        }
+        body{
+            color:var(--texto);
+            min-height:100vh;
+            padding:40px 20px;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(0,204,255,.12) 0%, transparent 50%),
+                radial-gradient(circle at 90% 20%, rgba(0,204,255,.08) 0%, transparent 50%),
+                linear-gradient(180deg,#020205,#050810);
+            position:relative;
+            overflow-x:hidden;
+        }
+        .neon-bg{
+            position:fixed;
+            inset:0;
+            z-index:-1;
+            opacity:.55;
+            background:
+                radial-gradient(circle at var(--x1, 20%) var(--y1, 30%), rgba(0,204,255,.14) 0%, transparent 45%),
+                radial-gradient(circle at var(--x2, 80%) var(--y2, 20%), rgba(0,204,255,.10) 0%, transparent 50%),
+                radial-gradient(circle at var(--x3, 50%) var(--y3, 80%), rgba(0,204,255,.08) 0%, transparent 55%),
+                radial-gradient(circle at var(--x4, 10%) var(--y4, 70%), rgba(0,204,255,.12) 0%, transparent 40%),
+                radial-gradient(circle at var(--x5, 90%) var(--y5, 90%), rgba(0,204,255,.09) 0%, transparent 60%);
+            animation:neonShape 18s ease-in-out infinite alternate;
+        }
+        .neon-line{
+            position:fixed;
+            inset:0;
+            z-index:-1;
+            opacity:.35;
+            background:
+                linear-gradient(90deg,transparent 49%,rgba(0,204,255,.03) 50%,transparent 51%),
+                linear-gradient(0deg,transparent 49%,rgba(0,204,255,.03) 50%,transparent 51%);
+            background-size:60px 60px;
+            animation:gridDrift 25s linear infinite;
+        }
+        .neon-waves{
+            position:fixed;
+            inset:0;
+            z-index:-1;
+            opacity:.45;
+            background:
+                repeating-linear-gradient(
+                    180deg,
+                    transparent,
+                    transparent 80px,
+                    rgba(0,204,255,.04) 80px,
+                    rgba(0,204,255,.04) 84px,
+                    transparent 84px,
+                    transparent 160px
+                );
+            animation:waveDrift 30s ease-in-out infinite alternate;
+        }
+        @keyframes neonShape{
+            0%{--x1:20%;--y1:30%;--x2:80%;--y2:20%;--x3:50%;--y3:80%;--x4:10%;--y4:70%;--x5:90%;--y5:90%;}
+            25%{--x1:35%;--y1:25%;--x2:70%;--y2:35%;--x3:60%;--y3:75%;--x4:15%;--y4:65%;--x5:85%;--y5:85%;}
+            50%{--x1:25%;--y1:45%;--x2:75%;--y2:28%;--x3:45%;--y3:85%;--x4:20%;--y4:80%;--x5:95%;--y5:75%;}
+            75%{--x1:40%;--y1:35%;--x2:65%;--y2:40%;--x3:55%;--y3:70%;--x4:8%;--y4:75%;--x5:88%;--y5:88%;}
+            100%{--x1:22%;--y1:28%;--x2:78%;--y2:22%;--x3:48%;--y3:78%;--x4:12%;--y4:68%;--x5:92%;--y5:92%;}
+        }
+        @keyframes gridDrift{
+            0%{transform:translate(0,0) scale(1);}
+            50%{transform:translate(15px,10px) scale(1.02);}
+            100%{transform:translate(0,0) scale(1);}
+        }
+        @keyframes waveDrift{
+            0%{transform:translateY(0) scaleX(1);}
+            50%{transform:translateY(-8px) scaleX(1.03);}
+            100%{transform:translateY(0) scaleX(1);}
+        }
+        .contenedor{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+        header{text-align:center;margin-bottom:60px}
+        .logo-img{max-width:480px;width:90%;margin-bottom:20px;border-radius:16px;box-shadow:0 0 30px rgba(0,204,255,.3);}
+        .subtitulo{color:var(--texto-tenue);font-size:1.1rem;letter-spacing:1px}
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:30px}
+        .tarjeta{background:var(--panel);border:1px solid var(--borde);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
+        .tarjeta:hover{transform:translateY(-6px);box-shadow:0 0 30px rgba(0,204,255,.2);border-color:var(--azul-neon);}
+        .foto-repo{width:100%;height:200px;object-fit:cover;background:#050810}
+        .cuerpo{padding:22px}
+        .nombre-proyecto{font-size:1.4rem;color:var(--azul-neon);margin-bottom:10px;text-shadow:0 0 8px rgba(0,204,255,.3)}
+        .descripcion{color:var(--texto-tenue);line-height:1.6;margin-bottom:22px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;
+             background:linear-gradient(135deg,var(--azul-oscuro),var(--azul-neon));
+             color:#fff;font-weight:700;border-radius:10px;text-decoration:none;
+             box-shadow:0 0 12px rgba(0,204,255,.25);transition:all .3s}
+        .btn:hover{box-shadow:0 0 25px var(--azul-neon);transform:scale(1.03)}
+        .separador{height:1px;background:linear-gradient(90deg,transparent,var(--azul-neon),transparent);margin:50px 0;opacity:.4}
+        .seccion-servicios{margin-top:80px;margin-bottom:40px;text-align:center}
+        .titulo-seccion{font-size:2rem;color:var(--azul-neon);margin-bottom:40px;text-shadow:0 0 12px rgba(0,204,255,.3)}
+        .grid-servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
+        .tarjeta-servicio{background:var(--panel);border:1px solid var(--borde);border-radius:14px;padding:30px 20px;transition:all .3s}
+        .tarjeta-servicio:hover{border-color:var(--azul-neon);transform:translateY(-5px);box-shadow:0 0 25px rgba(0,204,255,.15)}
+        .icono{font-size:2.5rem;margin-bottom:15px;display:inline-block}
+        .tarjeta-servicio h3{color:var(--azul-brillo);margin-bottom:12px;font-size:1.25rem}
+        .tarjeta-servicio p{color:var(--texto-tenue);line-height:1.6;margin-bottom:15px}
+        .btn-llamar{display:inline-block;margin-top:10px;padding:10px 24px;
+                      background:linear-gradient(135deg,var(--azul-oscuro),var(--azul-neon));
+                      color:#fff;font-weight:700;border-radius:8px;text-decoration:none;
+                      box-shadow:0 0 12px rgba(0,204,255,.25);transition:all .3s}
+        .btn-llamar:hover{box-shadow:0 0 25px var(--azul-neon);transform:scale(1.05)}
+        footer{text-align:center;color:#406080;font-size:.9rem;margin-top:60px;padding-bottom:40px}
+    </style>
+</head>
+<body>
+    <div class="neon-bg"></div>
+    <div class="neon-line"></div>
+    <div class="neon-waves"></div>
+
+    <div class="contenedor">
+        <header>
+            <img src="logo.jpg" alt="D-C laboratory" class="logo-img">
+            <p class="subtitulo">PROYECTOS • REPOSITORIOS • DESCARGAS</p>
+        </header>
+
+        <div class="grid">
+            <div class="tarjeta">
+                <img src="rojo.png" alt="ROJO" class="foto-repo">
+                <div class="cuerpo">
+                    <h3 class="nombre-proyecto">ROJO</h3>
+                    <p class="descripcion">Taller especializado en diseño, fabricación, reparación y monitoreo de motores de VW. Escapes personalizados, ECU, monitoreo en tiempo real de motor con software dedicado exclusivo.</p>
+                    <a href="https://rojo-taller.github.io/ROJO/" class="btn" target="_blank">⬇️ Ver Proyecto</a>
+                </div>
+            </div>
+
+            <div class="tarjeta">
+                <img src="S.I.D.C..png" alt="S.I.D.C." class="foto-repo">
+                <div class="cuerpo">
+                    <h3 class="nombre-proyecto">S.I.D.C.</h3>
+                    <p class="descripcion">Sistema Integral de Diagnóstico y Control. Ingeniería aplicada para monitoreo, análisis y soluciones tecnológicas en tiempo real.</p>
+                    <a href="https://suministrosintegralesdc.github.io/SolucionesintegralesDC/" class="btn" target="_blank">⬇️ Ver Proyecto</a>
+                </div>
+            </div>
+
+            <div class="tarjeta">
+                <img src="dctunerrojo.jpg" alt="DCtunerRojo Studio" class="foto-repo">
+                <div class="cuerpo">
+                    <h3 class="nombre-proyecto">DCtunerRojo Studio</h3>
+                    <p class="descripcion">Estudio completo de calibración y monitoreo en tiempo real. Tablero digital, editor de mapas, lectura de sensores y control de ECU dedicado para motores VW y Speeduino.</p>
+                    <a href="#" class="btn" target="_blank">⬇️ Próximamente</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="separador"></div>
+
+        <div class="seccion-servicios">
+            <h2 class="titulo-seccion">INFORMACIÓN • SERVICIOS</h2>
+            <div class="grid-servicios">
+                <div class="tarjeta-servicio">
+                    <span class="icono">🌐</span>
+                    <h3>Creación de Páginas Web</h3>
+                    <p>Diseño y desarrollo de sitios web profesionales, adaptables a móviles, con diseño moderno y tecnología de punta.</p>
+                    <a href="tel:8114895750" class="btn-llamar">📞 Solicitar — 8114895750</a>
+                </div>
+                <div class="tarjeta-servicio">
+                    <span class="icono">📱</span>
+                    <h3>Creación de Aplicaciones</h3>
+                    <p>Desarrollo de aplicaciones móviles y de escritorio a medida, funcionales y optimizadas para cada necesidad.</p>
+                    <a href="tel:8114895750" class="btn-llamar">📞 Solicitar — 8114895750</a>
+                </div>
+                <div class="tarjeta-servicio">
+                    <span class="icono">💻</span>
+                    <h3>Software Personalizado</h3>
+                    <p>Soluciones de software a la medida, sistemas de control, monitoreo y automatización para proyectos industriales y automotrices.</p>
+                    <a href="tel:8114895750" class="btn-llamar">📞 Solicitar — 8114895750</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>D-C laboratory © 2026 — Código abierto • Innovación constante<br>
+               📞 Teléfono: <a href="tel:8114895750" style="color:#00ccff;text-decoration:none">8114895750</a></p>
+        </footer>
+    </div>
+</body>
+</html>
+
+
