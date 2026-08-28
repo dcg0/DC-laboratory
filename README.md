@@ -21,13 +21,13 @@ Laboratorio de desarrollo tecnológico — soluciones integrales en ingeniería 
 - **📊 S.I.D.C.** — Sistema Integral de Diagnóstico y Control → [Ver proyecto](https://suministrosintegralesdc.github.io/SolucionesintegralesDC/)
 - **⚙️ DCtunerRojo Studio** — Estudio de calibración y monitoreo → *Próximamente*
 
-### 🛠️ Servicios
+# 🛠️ Servicios
 - 🌐 Creación de Páginas Web
 - 📱 Creación de Aplicaciones
 - 💻 Software Personalizado
 
 ### 📞 Contacto
-**Teléfono:** [8114895750](tel:8114895750)
+**Teléfono:** [811010101](tel:811010101)
 
 ---
 
