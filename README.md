@@ -17,9 +17,9 @@
 Laboratorio de desarrollo tecnológico — soluciones integrales en ingeniería automotriz, sistemas de diagnóstico y software personalizado.
 
 ### 🚀 Proyectos Destacados
-- **🔧 ROJO** — Ingeniería Automotriz → [Ver proyecto](https://rojo-taller.github.io/ROJO/)
+- **🔧 TalleR** — Ingeniería Automotriz → [Ver proyecto](https://rojo-taller.github.io/ROJO/)
 - **📊 S.I.D.C.** — Sistema Integral de Diagnóstico y Control → [Ver proyecto](https://suministrosintegralesdc.github.io/SolucionesintegralesDC/)
-- **⚙️ DCtunerRojo Studio** — Estudio de calibración y monitoreo → *Próximamente*
+- **⚙️ DCtunerR Studio** — Estudio de calibración y monitoreo → *Próximamente*
 
 # 🛠️ Servicios
 - 🌐 Creación de Páginas Web
