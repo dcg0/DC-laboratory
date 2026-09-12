@@ -116,6 +116,36 @@
                       box-shadow:0 0 12px rgba(0,204,255,.25);transition:all .3s}
         .btn-llamar:hover{box-shadow:0 0 25px var(--azul-neon);transform:scale(1.05)}
         footer{text-align:center;color:#406080;font-size:.9rem;margin-top:60px;padding-bottom:40px}
+        .flotantes{
+            position:fixed;
+            right:22px;
+            bottom:22px;
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+            z-index:50;
+        }
+        .flotantes a{
+            width:54px;height:54px;
+            display:flex;align-items:center;justify-content:center;
+            border-radius:50%;
+            font-size:1.6rem;
+            text-decoration:none;
+            background:var(--panel);
+            border:1px solid var(--azul-neon);
+            box-shadow:0 0 14px rgba(0,204,255,.4);
+            transition:transform .25s, box-shadow .25s;
+        }
+        .flotantes a:hover{transform:scale(1.12);box-shadow:0 0 25px var(--azul-neon)}
+        .mapa-seccion{margin-top:60px;text-align:center}
+        .mapa-seccion iframe{
+            width:100%;
+            max-width:900px;
+            height:320px;
+            border:1px solid var(--borde);
+            border-radius:16px;
+            box-shadow:0 0 20px rgba(0,204,255,.15);
+        }
     </style>
 </head>
 <body>
@@ -162,7 +192,24 @@
                 <div class="cuerpo">
                     <h3 class="nombre-proyecto">DCG-laboratory</h3>
                     <p class="descripcion">Bot de WhatsApp — Automatización, descargas, IA, stickers, administración y herramientas. Todo en un solo asistente inteligente.</p>
-                    <a href="https://github.com/dcg0/DC-laboratory" class="btn" target="_blank">⬇️ Ver Proyecto</a>
+                    <a href="https://github.com/dcg2390/DCG-laboratory" class="btn" target="_blank">⬇️ Ver Proyecto</a>
+                </div>
+            </div>
+
+            <div class="tarjeta">
+                <img src="dc-laboratory.jpg" alt="DC-LABORATORY" class="foto-repo">
+                <div class="cuerpo">
+                    <h3 class="nombre-proyecto">DCos</h3>
+                    <p class="descripcion">Plataforma de código abierto para orquestación y gestión de centros de datos: administración de clústeres, despliegue de servicios y monitoreo centralizado de infraestructura.</p>
+                    <a href="https://github.com/dcos/dcos" class="btn" target="_blank">⬇️ Ver Proyecto</a>
+                </div>
+            </div>
+            <div class="tarjeta">
+                <img src="lucy.png" alt="LUCY" class="foto-repo">
+                <div class="cuerpo">
+                    <h3 class="nombre-proyecto">LUCY</h3>
+                    <p class="descripcion">Inteligencia artificial híbrida que controla la máquina de forma integral: funciona conectada a internet o de manera 100% offline, gestionando organización, comunicación, soporte y soluciones en un solo sistema.</p>
+                    <span class="btn" style="opacity:.6;cursor:default;box-shadow:none;">🚧 Próximamente</span>
                 </div>
             </div>
         </div>
@@ -193,10 +240,21 @@
             </div>
         </div>
 
+        <div class="mapa-seccion">
+            <h2 class="titulo-seccion">UBICACIÓN</h2>
+            <iframe src="https://www.google.com/maps?q=Monterrey,Nuevo%20Le%C3%B3n,M%C3%A9xico&output=embed" loading="lazy" allowfullscreen></iframe>
+        </div>
+
         <footer>
             <p>D-C laboratory © 2026 — Código abierto • Innovación constante<br>
                📞 Teléfono: <a href="tel:8114895750" style="color:#00ccff;text-decoration:none">8114895750</a></p>
         </footer>
+    </div>
+
+    <div class="flotantes">
+        <a href="https://wa.me/528114895750" target="_blank" title="WhatsApp">💬</a>
+        <a href="mailto:ddcg0@dc.com" title="Correo">✉️</a>
+        <a href="https://github.com/dcg0" target="_blank" title="GitHub">🐙</a>
     </div>
 </body>
 </html>
