@@ -13,24 +13,7 @@
 
 ---
 
-### 📌 Sobre Nosotros
-Laboratorio de desarrollo tecnológico — soluciones integrales en ingeniería automotriz, sistemas de diagnóstico y software personalizado.
-
-### 🚀 Proyectos Destacados
-- **🔧 TalleR** — Ingeniería Automotriz → [Ver proyecto](https://rojo-taller.github.io/ROJO/)
-- **📊 S.I.D.C.** — Sistema Integral de Diagnóstico y Control → [Ver proyecto](https://suministrosintegralesdc.github.io/SolucionesintegralesDC/)
-- **⚙️ DCtunerR Studio** — Estudio de calibración y monitoreo → *Próximamente*
-
-# 🛠️ Servicios
-- 🌐 Creación de Páginas Web
-- 📱 Creación de Aplicaciones
-- 💻 Software Personalizado
-
-### 📞 Contacto
-**Teléfono:** [811010101](tel:811010101)
-
----
-
+→ [Ver 
 <p align="center">
   <strong>D-C laboratory © 2026 — Código abierto • Innovación constante</strong>
 </p>
