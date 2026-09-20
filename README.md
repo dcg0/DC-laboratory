@@ -13,7 +13,7 @@
 
 ---
 
-→ [Ver 
+
 <p align="center">
   <strong>D-C laboratory © 2026 — Código abierto • Innovación constante</strong>
 </p>
