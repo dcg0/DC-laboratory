@@ -1,404 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D-C laboratory | Proyectos</title>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-        :root{
-            --fondo:#020205;
-            --panel:#080a15;
-            --borde:#0f1a30;
-            --azul-oscuro:#003366;
-            --azul-neon:#00ccff;
-            --azul-brillo:#33eeff;
-            --texto:#e0f0ff;
-            --texto-tenue:#88b0d0;
-        }
-        body{
-            color:var(--texto);
-            min-height:100vh;
-            padding:40px 20px;
-            background:
-                radial-gradient(circle at 10% 10%, rgba(0,204,255,.12) 0%, transparent 50%),
-                radial-gradient(circle at 90% 20%, rgba(0,204,255,.08) 0%, transparent 50%),
-                linear-gradient(180deg,#020205,#050810);
-            position:relative;
-            overflow-x:hidden;
-        }
-        .neon-bg{
-            position:fixed;
-            inset:0;
-            z-index:-1;
-            opacity:.55;
-            background:
-                radial-gradient(circle at var(--x1, 20%) var(--y1, 30%), rgba(0,204,255,.14) 0%, transparent 45%),
-                radial-gradient(circle at var(--x2, 80%) var(--y2, 20%), rgba(0,204,255,.10) 0%, transparent 50%),
-                radial-gradient(circle at var(--x3, 50%) var(--y3, 80%), rgba(0,204,255,.08) 0%, transparent 55%),
-                radial-gradient(circle at var(--x4, 10%) var(--y4, 70%), rgba(0,204,255,.12) 0%, transparent 40%),
-                radial-gradient(circle at var(--x5, 90%) var(--y5, 90%), rgba(0,204,255,.09) 0%, transparent 60%);
-            animation:neonShape 18s ease-in-out infinite alternate;
-        }
-        .neon-line{
-            position:fixed;
-            inset:0;
-            z-index:-1;
-            opacity:.35;
-            background:
-                linear-gradient(90deg,transparent 49%,rgba(0,204,255,.03) 50%,transparent 51%),
-                linear-gradient(0deg,transparent 49%,rgba(0,204,255,.03) 50%,transparent 51%);
-            background-size:60px 60px;
-            animation:gridDrift 25s linear infinite;
-        }
-        .neon-waves{
-            position:fixed;
-            inset:0;
-            z-index:-1;
-            opacity:.45;
-            background:
-                repeating-linear-gradient(
-                    180deg,
-                    transparent,
-                    transparent 80px,
-                    rgba(0,204,255,.04) 80px,
-                    rgba(0,204,255,.04) 84px,
-                    transparent 84px,
-                    transparent 160px
-                );
-            animation:waveDrift 30s ease-in-out infinite alternate;
-        }
-        @keyframes neonShape{
-            0%{--x1:20%;--y1:30%;--x2:80%;--y2:20%;--x3:50%;--y3:80%;--x4:10%;--y4:70%;--x5:90%;--y5:90%;}
-            25%{--x1:35%;--y1:25%;--x2:70%;--y2:35%;--x3:60%;--y3:75%;--x4:15%;--y4:65%;--x5:85%;--y5:85%;}
-            50%{--x1:25%;--y1:45%;--x2:75%;--y2:28%;--x3:45%;--y3:85%;--x4:20%;--y4:80%;--x5:95%;--y5:75%;}
-            75%{--x1:40%;--y1:35%;--x2:65%;--y2:40%;--x3:55%;--y3:70%;--x4:8%;--y4:75%;--x5:88%;--y5:88%;}
-            100%{--x1:22%;--y1:28%;--x2:78%;--y2:22%;--x3:48%;--y3:78%;--x4:12%;--y4:68%;--x5:92%;--y5:92%;}
-        }
-        @keyframes gridDrift{
-            0%{transform:translate(0,0) scale(1);}
-            50%{transform:translate(15px,10px) scale(1.02);}
-            100%{transform:translate(0,0) scale(1);}
-        }
-        @keyframes waveDrift{
-            0%{transform:translateY(0) scaleX(1);}
-            50%{transform:translateY(-8px) scaleX(1.03);}
-            100%{transform:translateY(0) scaleX(1);}
-        }
-        .contenedor{max-width:1200px;margin:0 auto;position:relative;z-index:1}
-        header{text-align:center;margin-bottom:60px}
-        .logo-img{max-width:480px;width:90%;margin-bottom:20px;border-radius:16px;box-shadow:0 0 30px rgba(0,204,255,.3);}
-        .subtitulo{color:var(--texto-tenue);font-size:1.1rem;letter-spacing:1px}
-        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:30px}
-        .tarjeta{background:var(--panel);border:1px solid var(--borde);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
-        .tarjeta:hover{transform:translateY(-6px);box-shadow:0 0 30px rgba(0,204,255,.2);border-color:var(--azul-neon);}
-        .tarjeta-destacada{background:linear-gradient(145deg,#101a2a,#160d18);border-color:#00ccff;box-shadow:0 0 24px rgba(0,204,255,.16),inset 0 0 28px rgba(255,34,68,.06);position:relative;}
-        .tarjeta-destacada:before{content:'NUEVO • SITIO OFICIAL';position:absolute;top:14px;right:14px;z-index:2;padding:6px 9px;border:1px solid #ff4466;background:#250c18;color:#ff7b92;border-radius:5px;font:700 .68rem 'Segoe UI',sans-serif;letter-spacing:.08em;}
-        .tarjeta-destacada .nombre-proyecto{color:#fff;background:linear-gradient(90deg,#00ccff,#ff4466);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
-        .tarjeta-destacada .btn{background:linear-gradient(135deg,#0099ff,#ff2244);}
-        .tarjeta-roja{border-color:#8d2030;box-shadow:0 0 18px rgba(255,34,68,.12),inset 0 0 24px rgba(255,34,68,.04)}
-        .tarjeta-roja:hover{border-color:#ff2244;box-shadow:0 0 30px rgba(255,34,68,.25)}
-        .tarjeta-roja .nombre-proyecto{color:#ff526c;text-shadow:0 0 8px rgba(255,34,68,.35)}
-        .tarjeta-roja .btn{background:linear-gradient(135deg,#661526,#ff2244);margin:4px 5px 0 0}
-        .foto-repo{width:100%;height:200px;object-fit:cover;background:#050810}
-        .cuerpo{padding:22px}
-        .nombre-proyecto{font-size:1.4rem;color:var(--azul-neon);margin-bottom:10px;text-shadow:0 0 8px rgba(0,204,255,.3)}
-        .descripcion{color:var(--texto-tenue);line-height:1.6;margin-bottom:22px}
-        .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;
-             background:linear-gradient(135deg,var(--azul-oscuro),var(--azul-neon));
-             color:#fff;font-weight:700;border-radius:10px;text-decoration:none;
-             box-shadow:0 0 12px rgba(0,204,255,.25);transition:all .3s}
-        .btn:hover{box-shadow:0 0 25px var(--azul-neon);transform:scale(1.03)}
-        .separador{height:1px;background:linear-gradient(90deg,transparent,var(--azul-neon),transparent);margin:50px 0;opacity:.4}
-        .seccion-servicios{margin-top:80px;margin-bottom:40px;text-align:center}
-        .titulo-seccion{font-size:2rem;color:var(--azul-neon);margin-bottom:40px;text-shadow:0 0 12px rgba(0,204,255,.3)}
-        .grid-servicios{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px}
-        .tarjeta-servicio{background:var(--panel);border:1px solid var(--borde);border-radius:14px;padding:30px 20px;transition:all .3s}
-        .tarjeta-servicio:hover{border-color:var(--azul-neon);transform:translateY(-5px);box-shadow:0 0 25px rgba(0,204,255,.15)}
-        .icono{font-size:2.5rem;margin-bottom:15px;display:inline-block}
-        .tarjeta-servicio h3{color:var(--azul-brillo);margin-bottom:12px;font-size:1.25rem}
-        .tarjeta-servicio p{color:var(--texto-tenue);line-height:1.6;margin-bottom:15px}
-        .btn-llamar{display:inline-block;margin-top:10px;padding:10px 24px;
-                      background:linear-gradient(135deg,var(--azul-oscuro),var(--azul-neon));
-                      color:#fff;font-weight:700;border-radius:8px;text-decoration:none;
-                      box-shadow:0 0 12px rgba(0,204,255,.25);transition:all .3s}
-        .btn-llamar:hover{box-shadow:0 0 25px var(--azul-neon);transform:scale(1.05)}
-        footer{text-align:center;color:#406080;font-size:.9rem;margin-top:60px;padding-bottom:40px}
-        .circuit-bg{
-            position:fixed;
-            inset:0;
-            z-index:-2;
-            opacity:.16;
-            -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M10 10 H90 V60 H150 V10 H210'/%3E%3Cpath d='M10 110 H60 V160 H110 V210'/%3E%3Cpath d='M130 90 H210 M170 90 V150 H210'/%3E%3Cpath d='M10 200 V180 H40'/%3E%3Ccircle cx='90' cy='60' r='4' fill='black' stroke='none'/%3E%3Ccircle cx='150' cy='10' r='4' fill='black' stroke='none'/%3E%3Ccircle cx='60' cy='160' r='4' fill='black' stroke='none'/%3E%3Ccircle cx='170' cy='150' r='4' fill='black' stroke='none'/%3E%3Crect x='20' y='170' width='30' height='16' fill='none' stroke='black' stroke-width='2'/%3E%3Crect x='150' y='40' width='16' height='30' fill='none' stroke='black' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
-            mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg fill='none' stroke='black' stroke-width='2'%3E%3Cpath d='M10 10 H90 V60 H150 V10 H210'/%3E%3Cpath d='M10 110 H60 V160 H110 V210'/%3E%3Cpath d='M130 90 H210 M170 90 V150 H210'/%3E%3Cpath d='M10 200 V180 H40'/%3E%3Ccircle cx='90' cy='60' r='4' fill='black' stroke='none'/%3E%3Ccircle cx='150' cy='10' r='4' fill='black' stroke='none'/%3E%3Ccircle cx='60' cy='160' r='4' fill='black' stroke='none'/%3E%3Ccircle cx='170' cy='150' r='4' fill='black' stroke='none'/%3E%3Crect x='20' y='170' width='30' height='16' fill='none' stroke='black' stroke-width='2'/%3E%3Crect x='150' y='40' width='16' height='30' fill='none' stroke='black' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
-            -webkit-mask-repeat:repeat;
-            mask-repeat:repeat;
-            -webkit-mask-size:220px 220px;
-            mask-size:220px 220px;
-            animation:circuitColor 30s ease-in-out infinite;
-        }
-        @keyframes circuitColor{
-            0%{background-color:#0066ff;}
-            33%{background-color:#ff2020;}
-            66%{background-color:#000000;}
-            100%{background-color:#0066ff;}
-        }
-        .musica-flotante{
-            width:54px;height:54px;
-            display:flex;align-items:center;justify-content:center;
-            border-radius:50%;
-            font-size:1.6rem;
-            cursor:pointer;
-            background:var(--panel);
-            border:1px solid var(--azul-neon);
-            box-shadow:0 0 14px rgba(0,204,255,.4);
-            transition:transform .25s, box-shadow .25s;
-        }
-        .musica-flotante:hover{transform:scale(1.12);box-shadow:0 0 25px var(--azul-neon)}
-        .icono-arrastrable{
-            position:fixed;
-            left:20px;
-            top:20px;
-            width:84px;height:84px;
-            border-radius:50%;
-            border:1px solid var(--azul-neon);
-            box-shadow:0 0 14px rgba(0,204,255,.4);
-            background:var(--panel);
-            display:flex;align-items:center;justify-content:center;
-            cursor:grab;
-            z-index:60;
-            touch-action:none;
-            user-select:none;
-            overflow:hidden;
-        }
-        .icono-arrastrable img{
-            width:100%;height:100%;
-            object-fit:cover;
-            pointer-events:none;
-        }
-        .icono-arrastrable:active{cursor:grabbing}
-        .flotantes{
-            position:fixed;
-            right:22px;
-            bottom:22px;
-            display:flex;
-            flex-direction:column;
-            gap:14px;
-            z-index:50;
-        }
-        .flotantes a{
-            overflow:hidden;
-            width:54px;height:54px;
-            display:flex;align-items:center;justify-content:center;
-            border-radius:50%;
-            font-size:1.6rem;
-            text-decoration:none;
-            background:var(--panel);
-            border:1px solid var(--azul-neon);
-            box-shadow:0 0 14px rgba(0,204,255,.4);
-            transition:transform .25s, box-shadow .25s;
-        }
-        .flotantes a:hover{transform:scale(1.12);box-shadow:0 0 25px var(--azul-neon)}
-        .mapa-seccion{margin-top:60px;text-align:center}
-        .mapa-seccion iframe{
-            width:100%;
-            max-width:900px;
-            height:320px;
-            border:1px solid var(--borde);
-            border-radius:16px;
-            box-shadow:0 0 20px rgba(0,204,255,.15);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DC Laboratory — proyectos de software, diagnóstico automotriz, telemetría, IA y soluciones digitales.">
+  <meta name="theme-color" content="#050508">
+  <title>DC Laboratory — Digital Workshop</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+    :root{--bg:#050508;--bg2:#090c14;--panel:#0d111b;--panel2:#111725;--line:#202b3d;--text:#edf4fb;--muted:#8b98a9;--cyan:#00ccff;--blue:#0099ff;--red:#ff3154;--red2:#ff5a72;--green:#00ff99;--yellow:#ffd166;--radius:14px;--ease:cubic-bezier(.22,1,.36,1)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:15px Manrope,system-ui,sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-3;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(#000 15%,transparent 85%)}a{color:inherit;text-decoration:none}button{font:inherit}.skip-link{position:absolute;left:16px;top:-50px;padding:12px 16px;background:var(--cyan);color:#001018;z-index:100;font-weight:800}.skip-link:focus{top:16px}.shell{width:min(1180px,calc(100% - 64px));margin-inline:auto}.ambient{position:fixed;z-index:-2;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:.12}.ambient.one{width:500px;height:500px;background:var(--cyan);left:-260px;top:40px}.ambient.two{width:450px;height:450px;background:var(--red);right:-250px;top:680px}.circuit{position:fixed;inset:0;z-index:-1;opacity:.12;background-image:linear-gradient(90deg,transparent 49.7%,#00ccff 50%,transparent 50.3%),linear-gradient(transparent 49.7%,#ff3154 50%,transparent 50.3%);background-size:180px 180px;mask-image:radial-gradient(circle at 50% 20%,#000,transparent 70%)}
+    .site-header{height:78px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;padding:0 max(32px,calc((100vw - 1180px)/2));border-bottom:1px solid transparent;transition:background .25s,border .25s}.site-header.scrolled{background:#050508df;border-color:var(--line);backdrop-filter:blur(18px)}.brand{display:flex;align-items:center;gap:10px}.brand img{width:36px;height:36px;object-fit:cover;border-radius:8px}.brand-mark{display:flex;align-items:baseline;line-height:1;letter-spacing:-.05em}.brand-mark b{font-size:25px;color:var(--cyan);text-shadow:0 0 16px #00ccff70}.brand-mark strong{font-size:25px;color:var(--red);text-shadow:0 0 16px #ff315470}.brand-mark small{font:500 9px 'DM Mono',monospace;letter-spacing:.08em;margin-left:4px;color:#aeb9c6}.nav{display:flex;align-items:center;gap:28px;color:#9ca8b6;font:500 10px 'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase}.nav a{transition:color .2s}.nav a:hover{color:var(--cyan)}.nav-cta{padding:11px 14px;border:1px solid #354154;border-radius:4px;color:var(--text)!important}.nav-cta span{color:var(--cyan);margin-left:12px}.menu{display:none;background:none;border:1px solid var(--line);padding:9px;border-radius:4px;color:#fff}.menu i{display:block;width:22px;height:2px;background:#fff;margin:4px}
+    .hero{min-height:650px;display:grid;grid-template-columns:1fr .95fr;align-items:center;gap:70px;padding:90px 0 100px}.eyebrow,.section-label{font:500 10px 'DM Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#8795a6;margin:0 0 21px}.eyebrow i,.section-label i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);margin-right:9px}.hero h1,.section-title{font:800 clamp(68px,9vw,122px)/.84 'Barlow Condensed',sans-serif;letter-spacing:-.06em;text-transform:uppercase;margin:0}.hero h1 span,.section-title span{color:var(--red)}.hero-copy>p:not(.eyebrow){max-width:500px;color:#aab5c2;font-size:16px;line-height:1.75;margin:29px 0}.actions{display:flex;gap:12px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:22px;padding:15px 17px;border-radius:4px;text-transform:uppercase;font:600 10px 'DM Mono',monospace;letter-spacing:.09em;transition:transform .25s var(--ease),box-shadow .25s,border .25s}.btn:hover{transform:translateY(-3px)}.btn-primary{color:#001018;background:var(--cyan);box-shadow:0 0 25px #00ccff28}.btn-primary:hover{box-shadow:0 0 34px #00ccff62}.btn-ghost{border:1px solid #344054;color:#d6dee7}.btn-ghost:hover{border-color:var(--red);color:#fff}.btn span{font-size:16px}.hero-meta{display:flex;gap:22px;margin-top:33px;color:#667484;font:500 9px 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.08em}.pulse{display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 10px var(--green);margin-right:7px}.hero-card{position:relative;padding:10px;background:#080b12;border:1px solid #2a3b50;transform:rotate(2deg);box-shadow:20px 28px 70px #000b,0 0 45px #00ccff12}.hero-card:before{content:"";position:absolute;inset:-1px;z-index:-1;background:linear-gradient(135deg,#00ccff80,transparent 40%,#ff315460);filter:blur(15px)}.hero-card img{display:block;width:100%;height:auto;filter:saturate(.82) contrast(1.08)}.hero-chrome{position:absolute;left:10px;right:10px;top:10px;height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#050810d9;color:#8f9bab;font:500 9px 'DM Mono',monospace;letter-spacing:.12em}.hero-chrome b{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 9px var(--red)}.chip{position:absolute;padding:11px 14px;background:#111823ed;border:1px solid #364354;box-shadow:0 12px 30px #0009;font:500 9px 'DM Mono',monospace}.chip small{display:block;color:#768395;letter-spacing:.12em}.chip strong{display:block;font-size:16px;margin-top:4px}.chip em{display:block;color:var(--green);font-style:normal;margin-top:4px}.chip-top{right:-29px;top:21%}.chip-bottom{left:-38px;bottom:16%}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.stat{display:flex;align-items:center;gap:14px;padding:22px 18px}.stat b{color:var(--red);font:500 11px 'DM Mono',monospace}.stat span{color:#a5afbb;font:500 10px 'DM Mono',monospace;letter-spacing:.05em;text-transform:uppercase}
+    .section{padding:135px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:52px}.section-head>p{max-width:385px;margin:0;color:var(--muted);line-height:1.75}.section-title{font-size:clamp(60px,7vw,92px)}.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.project-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;min-height:425px;transition:transform .3s var(--ease),border .3s,box-shadow .3s}.project-card:hover{transform:translateY(-7px);border-color:#3a506b;box-shadow:0 18px 50px #0008}.project-card.featured{grid-column:span 2;background:linear-gradient(135deg,#101e2b,#180d16);border-color:#1b718c;box-shadow:inset 0 0 40px #00ccff08}.project-card.featured .project-image{height:255px}.project-image{width:100%;height:195px;object-fit:cover;filter:saturate(.76);transition:filter .35s,transform .6s var(--ease)}.project-card:hover .project-image{filter:saturate(1);transform:scale(1.025)}.project-content{display:flex;flex-direction:column;flex:1;padding:21px}.tag{display:inline-flex;width:max-content;padding:5px 8px;border:1px solid #385066;color:var(--cyan);background:#092334;font:500 9px 'DM Mono',monospace;letter-spacing:.1em}.tag-red{color:#ff8093;border-color:#703044;background:#2a101a}.tag-green{color:var(--green);border-color:#24654d;background:#09261e}.tag-purple{color:#c795ff;border-color:#604889;background:#1d1430}.project-content h3{font:700 29px 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:14px 0 7px}.project-content p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}.project-link{display:inline-flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:18px;color:#fff;font:600 10px 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.08em}.project-link span{color:var(--cyan);font-size:16px}.project-card.featured .project-link{color:var(--cyan)}
+    .services{background:#080b12;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.service{padding:30px 24px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);transition:transform .3s var(--ease),border .3s}.service:hover{transform:translateY(-5px);border-color:var(--cyan)}.service-icon{font:500 42px 'DM Mono',monospace;color:var(--cyan);text-shadow:0 0 20px #00ccff5c}.service:nth-child(2) .service-icon{color:var(--red);text-shadow:0 0 20px #ff31545c}.service:nth-child(3) .service-icon{color:var(--green);text-shadow:0 0 20px #00ff995c}.service h3{font:700 27px 'Barlow Condensed',sans-serif;text-transform:uppercase;margin:18px 0 8px}.service p{color:var(--muted);line-height:1.65;font-size:13px;min-height:66px}.service .btn{margin-top:12px;padding:11px 13px}
+    .contact{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:start}.contact-copy p{color:var(--muted);line-height:1.75;max-width:390px}.contact-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:27px}.contact-link{padding:11px 12px;border:1px solid var(--line);border-radius:4px;color:#c0cbd6;font:500 10px 'DM Mono',monospace}.contact-link:hover{border-color:var(--cyan);color:var(--cyan)}.map-wrap{background:var(--panel);border:1px solid var(--line);padding:8px;border-radius:var(--radius)}.map-wrap iframe{display:block;width:100%;height:330px;border:0;border-radius:9px;filter:saturate(.6) contrast(1.15)}
+    .footer{padding:35px 0;border-top:1px solid var(--line)}.footer-inner{display:flex;align-items:center;justify-content:space-between;gap:25px;color:#748191;font:500 10px 'DM Mono',monospace;line-height:1.7}.footer-inner a{color:var(--cyan)}.floating{position:fixed;right:22px;bottom:22px;display:flex;flex-direction:column;gap:12px;z-index:40}.floating a,.music-orb{width:53px;height:53px;display:grid;place-items:center;border:1px solid var(--cyan);border-radius:50%;background:#0d111be8;box-shadow:0 0 18px #00ccff45;font-size:20px;transition:transform .25s,box-shadow .25s}.floating a:hover,.music-orb:hover{transform:scale(1.1);box-shadow:0 0 26px var(--cyan)}.floating img{width:100%;height:100%;object-fit:cover;border-radius:50%}.music-orb{position:fixed;left:20px;top:100px;z-index:40;cursor:grab;touch-action:none;user-select:none;overflow:hidden}.music-orb img{width:100%;height:100%;object-fit:cover;pointer-events:none}.music-orb:active{cursor:grabbing}.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}.reveal.visible{opacity:1;transform:none}:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+    @media(max-width:980px){.hero{gap:35px}.project-grid{grid-template-columns:repeat(2,1fr)}.project-card.featured{grid-column:span 2}.contact{gap:30px}}
+    @media(max-width:720px){.shell{width:min(100% - 38px,560px)}.site-header{height:70px;padding:0 19px}.menu{display:block}.nav{position:absolute;display:none;left:0;right:0;top:70px;flex-direction:column;align-items:stretch;gap:0;padding:18px 19px;background:#070910f2;border-bottom:1px solid var(--line);backdrop-filter:blur(16px)}.nav.open{display:flex}.nav a{padding:14px 5px}.nav-cta{text-align:center;margin-top:5px}.hero{display:flex;flex-direction:column;align-items:stretch;padding:62px 0 74px}.hero-card{order:-1;margin:0 12px 14px 0}.hero h1{font-size:80px}.hero-copy>p:not(.eyebrow){font-size:15px}.hero-meta{gap:11px;flex-wrap:wrap}.chip{transform:scale(.82)}.chip-top{right:-27px}.chip-bottom{left:-29px}.stats{grid-template-columns:repeat(2,1fr)}.stat{padding:18px 8px;gap:8px}.stat span{font-size:8px}.section{padding:95px 0}.section-head{display:block;margin-bottom:38px}.section-head>p{margin-top:25px}.project-grid,.service-grid{grid-template-columns:1fr}.project-card.featured{grid-column:auto}.project-card.featured .project-image{height:205px}.project-image{height:205px}.service p{min-height:0}.contact{display:block}.map-wrap{margin-top:42px}.footer-inner{display:block}.footer-inner p{margin-top:20px}.floating{right:16px;bottom:16px}.music-orb{left:14px;top:88px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+  </style>
 </head>
 <body>
-    <div class="neon-bg"></div>
-    <div class="circuit-bg"></div>
-    <div class="neon-line"></div>
-    <div class="neon-waves"></div>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="ambient one" aria-hidden="true"></div><div class="ambient two" aria-hidden="true"></div><div class="circuit" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="DC Laboratory, inicio"><img src="dciconooriginal.png" alt=""><span class="brand-mark"><b>DC</b><strong>laboratory</strong></span></a>
+    <button class="menu" id="menu-toggle" type="button" aria-label="Abrir navegación" aria-expanded="false" aria-controls="main-nav"><i></i><i></i><i></i></button>
+    <nav class="nav" id="main-nav" aria-label="Navegación principal"><a href="#proyectos">Proyectos</a><a href="#servicios">Servicios</a><a href="#contacto">Contacto</a><a class="nav-cta" href="https://github.com/dcg0" target="_blank" rel="noopener">GitHub <span>↗</span></a></nav>
+  </header>
 
-    <div class="contenedor">
-        <header>
-            <img src="logo.jpg" alt="D-C laboratory" class="logo-img">
-            <p class="subtitulo">PROYECTOS • REPOSITORIOS • DESCARGAS</p>
-        </header>
+  <main id="contenido">
+    <section class="hero shell">
+      <div class="hero-copy reveal"><p class="eyebrow"><i></i> DC LABORATORY / DIGITAL WORKSHOP</p><h1>Ideas que<br><span>se vuelven</span><br>sistema.</h1><p>Software, telemetría, automatización e inteligencia aplicada para convertir problemas complejos en herramientas que funcionan.</p><div class="actions"><a class="btn btn-primary" href="#proyectos">Explorar proyectos <span>↓</span></a><a class="btn btn-ghost" href="#contacto">Hablar con DC <span>↗</span></a></div><div class="hero-meta"><span><i class="pulse"></i> Activo / 2026</span><span>Open source</span><span>Hecho en México</span></div></div>
+      <div class="hero-card reveal" aria-label="Panel visual de proyectos DC Laboratory"><div class="hero-chrome"><span>DC / SYSTEM OVERVIEW</span><b></b></div><img src="banner.jpg" alt="Identidad visual de DC Laboratory con panel de proyectos"><div class="chip chip-top"><small>PROJECTS ONLINE</small><strong>09</strong><em>+2 en desarrollo</em></div><div class="chip chip-bottom"><small>BUILD STATUS</small><strong><i class="pulse"></i> READY</strong></div></div>
+    </section>
+    <section class="stats shell" aria-label="Resumen de DC Laboratory"><div class="stat"><b>01</b><span>Software a medida</span></div><div class="stat"><b>02</b><span>Automotriz / ECU</span></div><div class="stat"><b>03</b><span>IA y automatización</span></div><div class="stat"><b>04</b><span>Web · móvil · desktop</span></div></section>
 
-        <div class="grid">
-            <div class="tarjeta tarjeta-destacada">
-                <img src="https://dctunestudio-jigf8omq.manus.space/manus-storage/dashboard_b63b4fd7.jpg" alt="DCtuneRstudio — Diagnóstico y Sintonización Automotriz" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">DCtuneRstudio</h3>
-                    <p class="descripcion">Diagnóstico y sintonización automotriz de DC Laboratory: descargas para Windows, Linux, macOS, Raspberry Pi y versión web.</p>
-                    <a href="https://dctunestudio-jigf8omq.manus.space/" class="btn" target="_blank" rel="noopener noreferrer">⚡ Abrir sitio oficial</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="laboratory.png" alt="DCG-laboratory — Bot WhatsApp" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">DCG-laboratory</h3>
-                    <p class="descripcion">Bot de WhatsApp — Automatización, descargas, IA, stickers, administración y herramientas. Todo en un solo asistente inteligente.</p>
-                    <a href="https://github.com/dcg2390/DCG-laboratory" class="btn" target="_blank">⬇️ Ver Proyecto</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="DCECUELM327.jpg" alt="HC-ELM327" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">HC-ELM327</h3>
-                    <p class="descripcion">Fork nativo Android de AndrOBD para diagnóstico OBD-II vía ELM327: lectura de sensores en tiempo real, dashboard integrado y monitoreo completo del vehículo.</p>
-                    <a href="https://dcg0.github.io/DC-carECU/" class="btn" target="_blank">⬇️ Ver Proyecto</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="DCstudio.png" alt="DC Tuner Studio" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">DC Tuner Studio</h3>
-                    <p class="descripcion">Estación profesional para telemetría y ajuste ECU en Windows y Linux 64-bit: sensores reales, gráficas, mapas y herramientas de diagnóstico para Speeduino, MegaSquirt y ELM327.</p>
-                    <a href="https://dcg0.github.io/DC-tuner-studio-site/" class="btn" target="_blank" rel="noopener noreferrer">⬇️ Abrir Página</a>
-                </div>
-            </div>
-            <div class="tarjeta tarjeta-roja">
-                <img src="dctunerrojo.jpg" alt="DCtuneRojostudio" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">DCtuneRojostudio</h3>
-                    <p class="descripcion">La edición roja de DC Tuner Studio: misma base multiplataforma para telemetría, mapas, registros y análisis de MegaSquirt y Speeduino, con interfaz, portada e iconos rojos.</p>
-                    <a href="https://dcg0.github.io/DCtuneRstudio/" class="btn" target="_blank" rel="noopener noreferrer">⚡ Abrir página</a>
-                    <a href="https://github.com/dcg0/DCtuneRstudio" class="btn" target="_blank" rel="noopener noreferrer">⬇️ Repositorio y descargas</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="rojo.png" alt="ROJO" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">ROJO</h3>
-                    <p class="descripcion">Taller especializado en diseño, fabricación, reparación y monitoreo de motores de VW. Escapes personalizados, ECU, monitoreo en tiempo real de motor con software dedicado exclusivo.</p>
-                    <a href="https://rojo-taller.github.io/ROJO/" class="btn" target="_blank">⬇️ Ver Proyecto</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="1789894913670.png" alt="S.I.D.C. Soluciones Integrales DC" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">S.I.D.C. / Soluciones Integrales DC</h3>
-                    <p class="descripcion">Sistema Integral de Diagnóstico y Control. Ingeniería aplicada para monitoreo, análisis y soluciones tecnológicas en tiempo real.</p>
-                    <a href="https://suministrosintegralesdc.github.io/SolucionesintegralesDC/" class="btn" target="_blank">⬇️ Ver Proyecto</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="lucy.png" alt="LUCY" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">LUCY</h3>
-                    <p class="descripcion">Inteligencia artificial híbrida que controla la máquina de forma integral: funciona conectada a internet o de manera 100% offline, gestionando organización, comunicación, soporte y soluciones en un solo sistema.</p>
-                    <a href="https://dcg0.github.io/Lucy/" class="btn">⬇️ Descargar Lucy</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="dc-laboratory.jpg" alt="DCos" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">DCos</h3>
-                    <p class="descripcion">Plataforma de código abierto para orquestación y gestión de centros de datos: administración de clústeres, despliegue de servicios y monitoreo centralizado de infraestructura.</p>
-                    <a href="https://github.com/dcos/dcos" class="btn" target="_blank">⬇️ Ver Proyecto</a>
-                </div>
-            </div>
-            <div class="tarjeta">
-                <img src="dcsgps.png" alt="DC-SGPS" class="foto-repo">
-                <div class="cuerpo">
-                    <h3 class="nombre-proyecto">DC-SGPS</h3>
-                    <p class="descripcion">Sistema de monitoreo de flotillas de autos y trailers en tiempo real: ubicación, velocidad, temperatura, estado del trailer y rutas recorridas. Funciona con el software DCSGPS y la app de Android Tracc Client.</p>
-                    <a href="https://github.com/dcg0/DC-SGPS-" class="btn" target="_blank">⬇️ Ver Proyecto</a>
-                </div>
-            </div>
-        </div>
+    <section id="proyectos" class="section shell"><div class="section-head reveal"><div><p class="section-label"><i></i> BUILT IN THE LAB</p><h2 class="section-title">Proyectos<br><span>en movimiento.</span></h2></div><p>Un portfolio vivo de herramientas, sistemas y experimentos que conectan software con el mundo real.</p></div>
+      <div class="project-grid">
+        <article class="project-card featured reveal"><img class="project-image" src="https://dctunestudio-jigf8omq.manus.space/manus-storage/dashboard_b63b4fd7.jpg" alt="Dashboard de DCtuneRstudio"><div class="project-content"><span class="tag">NUEVO · SITIO OFICIAL</span><h3>DCtuneRstudio</h3><p>Diagnóstico y sintonización automotriz para PC, Windows, Linux, macOS, Raspberry Pi y navegador.</p><a class="project-link" href="https://dctunestudio-jigf8omq.manus.space/" target="_blank" rel="noopener">Abrir sitio oficial <span>↗</span></a><a class="project-link" href="https://github.com/dcg0/DCtuneRstudio" target="_blank" rel="noopener">Repositorio GitHub <span>↗</span></a><a class="project-link" href="https://dcg0.github.io/DCtuneRstudio/" target="_blank" rel="noopener">Página anterior <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="laboratory.png" alt="DCG-laboratory — bot de WhatsApp"><div class="project-content"><span class="tag tag-green">AUTOMATION</span><h3>DCG-laboratory</h3><p>Bot de WhatsApp con IA, descargas, stickers, administración y herramientas.</p><a class="project-link" href="https://github.com/dcg2390/DCG-laboratory" target="_blank" rel="noopener">Ver proyecto <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="DCECUELM327.jpg" alt="HC-ELM327 para diagnóstico OBD-II"><div class="project-content"><span class="tag tag-red">AUTOMOTIVE</span><h3>HC-ELM327</h3><p>Diagnóstico OBD-II vía ELM327, sensores en tiempo real y dashboard integrado.</p><a class="project-link" href="https://dcg0.github.io/DC-carECU/" target="_blank" rel="noopener">Abrir proyecto <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="DCstudio.png" alt="DC Tuner Studio"><div class="project-content"><span class="tag tag-red">TELEMETRY</span><h3>DC Tuner Studio</h3><p>Telemetría, ajuste ECU, sensores, gráficas y mapas para Speeduino, MegaSquirt y ELM327.</p><a class="project-link" href="https://dcg0.github.io/DC-tuner-studio-site/" target="_blank" rel="noopener">Abrir página <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="dctunerrojo.jpg" alt="DCtunerRojo Studio"><div class="project-content"><span class="tag tag-red">CALIBRATION</span><h3>DCtunerRojo</h3><p>Calibración, monitoreo en tiempo real, mapas y control de ECU para VW y Speeduino.</p><a class="project-link" href="https://github.com/dcg2390/DCtuneR" target="_blank" rel="noopener">Ver proyecto <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="rojo.png" alt="ROJO taller especializado"><div class="project-content"><span class="tag tag-red">WORKSHOP</span><h3>ROJO</h3><p>Diseño, fabricación, reparación y monitoreo de motores VW con software dedicado.</p><a class="project-link" href="https://rojo-taller.github.io/ROJO/" target="_blank" rel="noopener">Ver proyecto <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="1789894913670.png" alt="S.I.D.C. Soluciones Integrales DC"><div class="project-content"><span class="tag">SYSTEMS</span><h3>S.I.D.C.</h3><p>Sistema Integral de Diagnóstico y Control para análisis y soluciones en tiempo real.</p><a class="project-link" href="https://suministrosintegralesdc.github.io/SolucionesintegralesDC/" target="_blank" rel="noopener">Ver proyecto <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="lucy.png" alt="LUCY inteligencia artificial"><div class="project-content"><span class="tag tag-purple">ARTIFICIAL INTELLIGENCE</span><h3>LUCY</h3><p>IA híbrida para organización, comunicación, soporte y soluciones online u offline.</p><a class="project-link" href="https://dcg0.github.io/Lucy/">Descargar Lucy <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="dcsgps.png" alt="DC-SGPS monitoreo de flotillas"><div class="project-content"><span class="tag tag-green">FLEET TECH</span><h3>DC-SGPS</h3><p>Monitoreo de flotillas, ubicación, velocidad, temperatura, rutas y estado de trailers.</p><a class="project-link" href="https://github.com/dcg0/DC-SGPS-" target="_blank" rel="noopener">Ver proyecto <span>↗</span></a></div></article>
+        <article class="project-card reveal"><img class="project-image" src="dc-laboratory.jpg" alt="DCos plataforma de datos"><div class="project-content"><span class="tag">INFRASTRUCTURE</span><h3>DCos</h3><p>Orquestación y gestión de centros de datos, despliegue y monitoreo centralizado.</p><a class="project-link" href="https://github.com/dcos/dcos" target="_blank" rel="noopener">Ver proyecto <span>↗</span></a></div></article>
+      </div>
+    </section>
 
-        <div class="separador"></div>
+    <section id="servicios" class="section services"><div class="shell"><div class="section-head reveal"><div><p class="section-label"><i></i> WHAT WE BUILD</p><h2 class="section-title">De la idea<br><span>a la interfaz.</span></h2></div><p>Diseñamos y construimos experiencias digitales que se sienten claras, rápidas y listas para crecer.</p></div><div class="service-grid"><article class="service reveal"><div class="service-icon">01</div><h3>Páginas web</h3><p>Sitios profesionales, responsive y con identidad visual propia para presentar tu proyecto con fuerza.</p><a class="btn btn-ghost" href="tel:8114895750">Solicitar <span>↗</span></a></article><article class="service reveal"><div class="service-icon">02</div><h3>Aplicaciones</h3><p>Aplicaciones móviles y de escritorio a medida, optimizadas para el flujo real de tu equipo.</p><a class="btn btn-ghost" href="tel:8114895750">Solicitar <span>↗</span></a></article><article class="service reveal"><div class="service-icon">03</div><h3>Software custom</h3><p>Control, monitoreo, automatización y sistemas industriales o automotrices diseñados contigo.</p><a class="btn btn-ghost" href="tel:8114895750">Solicitar <span>↗</span></a></article></div></div></section>
 
-        <div class="seccion-servicios">
-            <h2 class="titulo-seccion">INFORMACIÓN • SERVICIOS</h2>
-            <div class="grid-servicios">
-                <div class="tarjeta-servicio">
-                    <span class="icono">🌐</span>
-                    <h3>Creación de Páginas Web</h3>
-                    <p>Diseño y desarrollo de sitios web profesionales, adaptables a móviles, con diseño moderno y tecnología de punta.</p>
-                    <a href="tel:8114895750" class="btn-llamar">📞 Solicitar — 8114895750</a>
-                </div>
-                <div class="tarjeta-servicio">
-                    <span class="icono">📱</span>
-                    <h3>Creación de Aplicaciones</h3>
-                    <p>Desarrollo de aplicaciones móviles y de escritorio a medida, funcionales y optimizadas para cada necesidad.</p>
-                    <a href="tel:8114895750" class="btn-llamar">📞 Solicitar — 8114895750</a>
-                </div>
-                <div class="tarjeta-servicio">
-                    <span class="icono">💻</span>
-                    <h3>Software Personalizado</h3>
-                    <p>Soluciones de software a la medida, sistemas de control, monitoreo y automatización para proyectos industriales y automotrices.</p>
-                    <a href="tel:8114895750" class="btn-llamar">📞 Solicitar — 8114895750</a>
-                </div>
-            </div>
-        </div>
+    <section id="contacto" class="section shell contact"><div class="contact-copy reveal"><p class="section-label"><i></i> OPEN CHANNEL</p><h2 class="section-title">Hablemos<br><span>de lo próximo.</span></h2><p>¿Tienes una idea, un sistema que automatizar o un proyecto automotriz que llevar más lejos? El laboratorio está abierto.</p><div class="contact-links"><a class="contact-link" href="tel:8114895750">Tel. 811 489 5750</a><a class="contact-link" href="mailto:ddcg0@dc.com">ddcg0@dc.com</a><a class="contact-link" href="https://wa.me/528114895750" target="_blank" rel="noopener">WhatsApp ↗</a><a class="contact-link" href="https://github.com/dcg0" target="_blank" rel="noopener">GitHub ↗</a></div></div><div class="map-wrap reveal"><iframe title="Ubicación de DC Laboratory en Monterrey, Nuevo León" src="https://www.google.com/maps?q=Monterrey,Nuevo%20Le%C3%B3n,M%C3%A9xico&output=embed" loading="lazy" allowfullscreen></iframe></div></section>
+  </main>
 
-        <div class="mapa-seccion">
-            <h2 class="titulo-seccion">UBICACIÓN</h2>
-            <iframe src="https://www.google.com/maps?q=Monterrey,Nuevo%20Le%C3%B3n,M%C3%A9xico&output=embed" loading="lazy" allowfullscreen></iframe>
-        </div>
-
-        <footer>
-            <p>D-C laboratory © 2026 — Código abierto • Innovación constante<br>
-               📞 Teléfono: <a href="tel:8114895750" style="color:#00ccff;text-decoration:none">8114895750</a></p>
-        </footer>
-    </div>
-
-    <div class="flotantes">
-        <a href="https://wa.me/528114895750" target="_blank" title="WhatsApp">💬</a>
-        <a href="mailto:ddcg0@dc.com" title="Correo">✉️</a>
-        <a href="https://github.com/dcg0" target="_blank" title="GitHub"><img src="github-icono.png" alt="GitHub" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></a>
-    </div>
-    <div class="icono-arrastrable" id="icono-arrastrable" title="Música">
-        <img src="icono-flotante.png" alt="DC">
-    </div>
-
-    <audio id="musica-fondo" src="musica.mp3" loop></audio>
-
-    <script>
-        (function(){
-            var el = document.getElementById('icono-arrastrable');
-            var audio = document.getElementById('musica-fondo');
-            var dragging = false, moved = false, offsetX = 0, offsetY = 0;
-
-            function start(x, y){
-                dragging = true;
-                moved = false;
-                var rect = el.getBoundingClientRect();
-                offsetX = x - rect.left;
-                offsetY = y - rect.top;
-            }
-            function move(x, y){
-                if(!dragging) return;
-                moved = true;
-                var nx = x - offsetX;
-                var ny = y - offsetY;
-                nx = Math.max(0, Math.min(window.innerWidth - el.offsetWidth, nx));
-                ny = Math.max(0, Math.min(window.innerHeight - el.offsetHeight, ny));
-                el.style.left = nx + 'px';
-                el.style.top = ny + 'px';
-            }
-            function end(){
-                if(!dragging) return;
-                dragging = false;
-                if(!moved){
-                    if(audio.paused){ audio.play(); } else { audio.pause(); }
-                }
-            }
-
-            el.addEventListener('mousedown', function(e){ start(e.clientX, e.clientY); });
-            window.addEventListener('mousemove', function(e){ move(e.clientX, e.clientY); });
-            window.addEventListener('mouseup', end);
-
-            el.addEventListener('touchstart', function(e){
-                var t = e.touches[0];
-                start(t.clientX, t.clientY);
-            }, {passive:true});
-            window.addEventListener('touchmove', function(e){
-                var t = e.touches[0];
-                move(t.clientX, t.clientY);
-            }, {passive:true});
-            window.addEventListener('touchend', end);
-        })();
-    </script>
+  <footer class="footer"><div class="shell footer-inner"><div><span class="brand-mark"><b>DC</b><strong>laboratory</strong></span><p>© 2026 DC Laboratory — Código abierto · Innovación constante</p></div><a href="#top">Volver arriba ↑</a></div></footer>
+  <div class="floating" aria-label="Enlaces rápidos"><a href="https://wa.me/528114895750" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">💬</a><a href="mailto:ddcg0@dc.com" aria-label="Enviar correo electrónico">✉</a><a href="https://github.com/dcg0" target="_blank" rel="noopener" aria-label="Abrir GitHub"><img src="github-icono.png" alt=""></a></div>
+  <button class="music-orb" id="music-orb" type="button" title="Reproducir o pausar música" aria-label="Reproducir o pausar música"><img src="icono-flotante.png" alt="Control de música"></button><audio id="musica-fondo" src="musica.mp3" loop></audio>
+  <script>
+    const header=document.querySelector('.site-header');
+    const menu=document.getElementById('menu-toggle');
+    const nav=document.getElementById('main-nav');
+    window.addEventListener('scroll',()=>header.classList.toggle('scrolled',window.scrollY>18),{passive:true});
+    menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));});
+    nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false');}));
+    const reveal=document.querySelectorAll('.reveal');
+    if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.1});reveal.forEach(item=>observer.observe(item));}else reveal.forEach(item=>item.classList.add('visible'));
+    (function(){const el=document.getElementById('music-orb'),audio=document.getElementById('musica-fondo');let dragging=false,moved=false,ox=0,oy=0;function start(x,y){dragging=true;moved=false;const r=el.getBoundingClientRect();ox=x-r.left;oy=y-r.top}function move(x,y){if(!dragging)return;moved=true;el.style.left=Math.max(0,Math.min(innerWidth-el.offsetWidth,x-ox))+'px';el.style.top=Math.max(0,Math.min(innerHeight-el.offsetHeight,y-oy))+'px';el.style.right='auto'}function end(){if(!dragging)return;dragging=false;if(!moved){if(audio.paused)audio.play().catch(()=>{});else audio.pause()}}el.addEventListener('mousedown',e=>start(e.clientX,e.clientY));addEventListener('mousemove',e=>move(e.clientX,e.clientY));addEventListener('mouseup',end);el.addEventListener('touchstart',e=>{const t=e.touches[0];start(t.clientX,t.clientY)},{passive:true});addEventListener('touchmove',e=>{const t=e.touches[0];move(t.clientX,t.clientY)},{passive:true});addEventListener('touchend',end)})();
+  </script>
 </body>
 </html>
