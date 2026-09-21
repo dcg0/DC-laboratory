@@ -92,6 +92,10 @@
         .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:30px}
         .tarjeta{background:var(--panel);border:1px solid var(--borde);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
         .tarjeta:hover{transform:translateY(-6px);box-shadow:0 0 30px rgba(0,204,255,.2);border-color:var(--azul-neon);}
+        .tarjeta-destacada{background:linear-gradient(145deg,#101a2a,#160d18);border-color:#00ccff;box-shadow:0 0 24px rgba(0,204,255,.16),inset 0 0 28px rgba(255,34,68,.06);position:relative;}
+        .tarjeta-destacada:before{content:'NUEVO • SITIO OFICIAL';position:absolute;top:14px;right:14px;z-index:2;padding:6px 9px;border:1px solid #ff4466;background:#250c18;color:#ff7b92;border-radius:5px;font:700 .68rem 'Segoe UI',sans-serif;letter-spacing:.08em;}
+        .tarjeta-destacada .nombre-proyecto{color:#fff;background:linear-gradient(90deg,#00ccff,#ff4466);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+        .tarjeta-destacada .btn{background:linear-gradient(135deg,#0099ff,#ff2244);}
         .foto-repo{width:100%;height:200px;object-fit:cover;background:#050810}
         .cuerpo{padding:22px}
         .nombre-proyecto{font-size:1.4rem;color:var(--azul-neon);margin-bottom:10px;text-shadow:0 0 8px rgba(0,204,255,.3)}
@@ -215,6 +219,14 @@
         </header>
 
         <div class="grid">
+            <div class="tarjeta tarjeta-destacada">
+                <img src="https://dctunestudio-jigf8omq.manus.space/manus-storage/dashboard_b63b4fd7.jpg" alt="DCtuneRstudio — Diagnóstico y Sintonización Automotriz" class="foto-repo">
+                <div class="cuerpo">
+                    <h3 class="nombre-proyecto">DCtuneRstudio</h3>
+                    <p class="descripcion">Diagnóstico y sintonización automotriz de DC Laboratory: descargas para Windows, Linux, macOS, Raspberry Pi y versión web.</p>
+                    <a href="https://dctunestudio-jigf8omq.manus.space/" class="btn" target="_blank" rel="noopener noreferrer">⚡ Abrir sitio oficial</a>
+                </div>
+            </div>
             <div class="tarjeta">
                 <img src="laboratory.png" alt="DCG-laboratory — Bot WhatsApp" class="foto-repo">
                 <div class="cuerpo">
