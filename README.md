@@ -1,8 +1,5 @@
 
-<p align="center">
-  <a href="https://github.com/dcg0/ELM327/actions/workflows/security.yml"><img
-<p align="center">
-  <img src="https://raw.githubusercontent.com/dcg0/DC-laboratory/main/banner.jpg" alt="D-C laboratory" width="100%" style="border-radius:12px;">
+ src="https://raw.githubusercontent.com/dcg0/DC-laboratory/main/banner.jpg" alt="D-C laboratory" width="100%" style="border-radius:12px;">
 </p>
 
 <h1 align="center">⚡ D-C laboratory</h1>
