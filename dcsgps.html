@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07121f">
+  <title>DC-SGPS — DC Laboratory</title>
+  <style>
+    :root{--bg:#07121f;--panel:#0d2231;--line:#155b7a;--text:#effaff;--muted:#a5c1cf;--cyan:#20d3ff;--green:#00e89b}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(700px 420px at 10% 0,#20d3ff26,transparent 65%),var(--bg);color:var(--text);font:15px Arial,sans-serif}
+    .shell{width:min(980px,calc(100% - 36px));margin:auto;padding:28px 0 70px}
+    .back{display:inline-block;margin-bottom:36px;color:var(--cyan);font-size:12px;font-weight:700;letter-spacing:.12em;text-decoration:none}
+    .hero{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center}
+    .hero img{width:100%;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px #0009}
+    .eyebrow{color:var(--green);font-size:11px;font-weight:700;letter-spacing:.14em}
+    h1{font-size:clamp(56px,10vw,110px);line-height:.85;letter-spacing:-.06em;margin:18px 0;color:var(--cyan)}
+    .lead{color:var(--muted);line-height:1.8;max-width:520px}
+    .panel{margin-top:42px;padding:26px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,#102d40,#091a28)}
+    h2{margin:0 0 10px;font-size:28px}
+    .panel p{color:var(--muted);line-height:1.7;margin:0 0 20px}
+    .buttons{display:flex;flex-wrap:wrap;gap:10px}
+    .button{display:inline-block;padding:13px 16px;border:1px solid var(--cyan);border-radius:7px;color:var(--cyan);font-size:11px;font-weight:700;letter-spacing:.08em;text-decoration:none}
+    .button.primary{background:var(--cyan);color:#03121b}
+    @media(max-width:700px){.hero{display:flex;flex-direction:column}.hero img{order:-1}h1{font-size:72px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <a class="back" href="./">← DC LABORATORY</a>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">FLEET TECH / MONITORING</p>
+        <h1>DC-SGPS</h1>
+        <p class="lead">Sistema de monitoreo de flotillas para consultar ubicación, velocidad, temperatura, rutas y estado de trailers desde una interfaz centralizada.</p>
+      </div>
+      <img src="dcsgps.png" alt="Panel de monitoreo DC-SGPS">
+    </section>
+    <section class="panel">
+      <h2>Proyecto de monitoreo</h2>
+      <p>DC-SGPS reúne telemetría y seguimiento operativo para ayudar a conocer el estado de los vehículos y tomar decisiones con información clara.</p>
+      <div class="buttons">
+        <a class="button primary" href="https://github.com/dcg0/DC-SGPS-" target="_blank" rel="noopener">Abrir repositorio GitHub ↗</a>
+        <a class="button" href="https://github.com/dcg0/DC-SGPS-" target="_blank" rel="noopener">Ver código fuente</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
