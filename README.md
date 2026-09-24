@@ -6,6 +6,12 @@
 <h3 align="center">Proyectos • Servicios • Desarrollo</h3>
 
 <p align="center">
+  <a href="https://github.com/dcg0/DC-laboratory/actions/workflows/security.yml"><img src="https://github.com/dcg0/DC-laboratory/actions/workflows/security.yml/badge.svg" alt="Security checks"></a>
+  <a href="https://github.com/dcg0/DC-laboratory/security"><img src="https://img.shields.io/badge/security-policy-available-176b46" alt="Security policy available"></a>
+  <a href="https://github.com/dcg0/DC-laboratory/blob/main/downloads/DCA-ChromeOS.apk.sha256"><img src="https://img.shields.io/badge/downloads-SHA--256%20verified-2f81f7" alt="Downloads SHA-256 verified"></a>
+</p>
+
+<p align="center">
   <a href="https://dcg0.github.io/DC-laboratory/" target="_blank">
     <strong>🌐 VER PÁGINA COMPLETA →</strong>
   </a>
@@ -17,4 +23,3 @@
 <p align="center">
   <strong>D-C laboratory © 2026 — Código abierto • Innovación constante</strong>
 </p>
-
