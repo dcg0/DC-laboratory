@@ -22,7 +22,7 @@ jobs:
         run: |
           set -euo pipefail
           patterns='BEGIN '(RSA|EC|OPENSSH|PGP)' PRIVATE KEY|AKIA''[0-9A-Z]{16}|gh''[pousr]_'[A-Za-z0-9_]{20,}|AIza''[0-9A-Za-z_-]{35}|-----BEGIN'
-          if git grep -n -I -E "$patterns" -- . ':!SECURITY.md'; then
+          if git grep -n -I -E "$patterns" -- . ':!SECURITY.md' ':!.github/workflows/security.yml'; then
             echo 'Potential secret detected. Remove it and rotate it before merging.' >&2
             exit 1
           fi
