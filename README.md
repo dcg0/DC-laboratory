@@ -17,7 +17,7 @@
   <img src="https://img.shields.io/badge/maintained-yes-success" alt="Mantenido activamente">
 </p>
 
-**Abrir la página:** [dcg0.github.io/DC-laboratory](https://dcg0.github.io/DC-laboratory/)
+**página:** [dcg0.github.io/DC-laboratory]
 
 <p align="center">
   <a href="dc-laboratory-qr.png"><img src="dc-laboratory-qr.png" alt="Código QR para abrir DC Laboratory" width="220"></a>
