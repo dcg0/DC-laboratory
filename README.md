@@ -17,9 +17,7 @@
   <img src="https://img.shields.io/badge/maintained-yes-success" alt="Mantenido activamente">
 </p>
 
-**página:** 🔗[dcg0.github.io/DC-laboratory]
-
-
+🔗[dcg0.github.io/DC-laboratory]
 
  Licencia y contacto
 
