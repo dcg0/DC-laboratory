@@ -1,6 +1,8 @@
-🌎🌐🚀🔗🌐🔗🌐🔗🌐🔗🌐🔗🌐🔗🌐🔗🌐
+🌎🌐🚀🔗🌐🔗🌐🔗🌐🔗🌐
+
 **[dcg0.github.io/DC-laboratory](https://dcg0.github.io/DC-laboratory/)**
 
+🌎🌐🚀🔗🌐🔗🌐🔗🌐🔗🌐
 
 <p align="center">
   <img src="dc-lab-neon.png" alt="DC Laboratory — identidad visual neón" width="720">
