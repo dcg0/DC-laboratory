@@ -21,7 +21,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if git grep -n -I -E '(BEGIN (RSA|EC|OPENSSH|PGP) PRIVATE KEY|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9_]{20,}|AIza[0-9A-Za-z_-]{35}|-----BEGIN)' -- . ':!SECURITY.md'; then
+          patterns='BEGIN '(RSA|EC|OPENSSH|PGP)' PRIVATE KEY|AKIA''[0-9A-Z]{16}|gh''[pousr]_'[A-Za-z0-9_]{20,}|AIza''[0-9A-Za-z_-]{35}|-----BEGIN'
+          if git grep -n -I -E "$patterns" -- . ':!SECURITY.md'; then
             echo 'Potential secret detected. Remove it and rotate it before merging.' >&2
             exit 1
           fi
