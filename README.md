@@ -1,3 +1,4 @@
+**[dcg0.github.io/DC-laboratory](https://dcg0.github.io/DC-laboratory/)**
 <p align="center">
   <img src="dc-lab-neon.png" alt="DC Laboratory — identidad visual neón" width="720">
 </p>
@@ -17,8 +18,5 @@
   <img src="https://img.shields.io/badge/maintained-yes-success" alt="Mantenido activamente">
 </p>
 
-🔗[dcg0.github.io/DC-laboratory]
-
  Licencia y contacto
-
 Código abierto e innovación constante. Para ideas, colaboraciones o solicitudes de desarrollo, visita el [sitio oficial](https://dcg0.github.io/DC-laboratory/) o el perfil de [GitHub](https://github.com/dcg0).
