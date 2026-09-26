@@ -5,7 +5,7 @@
 🌎🌐🚀🔗🌐🔗🌐🔗🌐🔗🌐
 
 <p align="center">
-  <img src="dc-lab-neon.png" alt="DC Laboratory — identidad visual neón" width="720">
+  <img src="portadaprincipal.png" alt="DC Laboratory — identidad visual de laboratorio y 3D" width="720">
 </p>
 
 <p align="center">
