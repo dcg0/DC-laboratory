@@ -1,0 +1,3 @@
+# Publish the security disclosure file under .well-known on GitHub Pages.
+include:
+  - .well-known
