@@ -46,3 +46,41 @@ jobs:
             echo 'Every target=_blank link must include rel="noopener".' >&2
             exit 1
           fi
+
+      - name: Verify security metadata on every published HTML page
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          required = (
+              'http-equiv="Content-Security-Policy"',
+              'name="referrer"',
+              'http-equiv="X-Content-Type-Options"',
+              'http-equiv="Permissions-Policy"',
+          )
+          pages = sorted(
+              path for path in Path('.').rglob('*.html')
+              if '.git' not in path.parts and 'node_modules' not in path.parts
+          )
+          if not pages:
+              raise SystemExit('No published HTML pages found')
+          failures = []
+          for page in pages:
+              text = page.read_text(encoding='utf-8', errors='strict')
+              missing = [item for item in required if item.lower() not in text.lower()]
+              if missing:
+                  failures.append(f'{page}: missing {", ".join(missing)}')
+          if failures:
+              print('\n'.join(failures))
+              raise SystemExit('Security metadata check failed')
+          print(f'Security metadata present on {len(pages)} HTML pages')
+          PY
+
+      - name: Verify vulnerability reporting file
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s .well-known/security.txt
+          grep -q '^Contact: https://github.com/dcg0/DC-laboratory/security/advisories/new$' .well-known/security.txt
