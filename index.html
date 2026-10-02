@@ -45,7 +45,48 @@
     .project-card:hover,.download-card:hover{animation-play-state:paused}
     @media(prefers-reduced-motion:reduce){.project-card,.download-card{animation:none}}
 
-  </style>
+
+    /* Remasterización conservadora: misma identidad, mejor lectura y ritmo visual. */
+    :root{--panel:#0f1723;--panel2:#141d2b;--line:#26384b;--muted:#9aa8b8;--cyan:#16d4ff;--green:#19f2a0}
+    html{scroll-padding-top:88px;text-rendering:optimizeLegibility}
+    body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .shell{width:min(1180px,calc(100% - 48px))}
+    .section{padding:112px 0}
+    .section-head{margin-bottom:42px}
+    .project-grid,.service-grid,.download-grid{gap:18px}
+    .project-card,.download-card,.service{border-radius:16px;box-shadow:0 8px 28px #0003}
+    .project-card:hover,.download-card:hover,.service:hover{box-shadow:0 16px 42px #0007,0 0 0 1px #16d4ff20}
+    .project-image{filter:saturate(.84) contrast(1.02)}
+    .project-content{padding:24px}
+    .project-content h3{margin-top:16px}
+    .project-content p,.download-card p{line-height:1.72}
+    .project-link{padding-top:15px;min-height:34px}
+    .download-card{min-height:365px;padding:22px}
+    .download-icon{width:84px;height:84px;margin-bottom:17px}
+    .download-actions{gap:9px;margin-top:auto;padding-top:20px}
+    .btn{min-height:44px;justify-content:space-between;gap:14px;padding:12px 14px}
+    .contact-links{gap:12px}
+    .contact-link{min-height:46px}
+    .project-card,.download-card{content-visibility:auto;contain-intrinsic-size:420px}
+    @media(max-width:720px){
+      .shell{width:min(100% - 30px,560px)}
+      .section{padding:82px 0}
+      .section-head{margin-bottom:30px}
+      .project-grid,.service-grid,.download-grid{gap:14px}
+      .project-content{padding:21px}
+      .download-card{padding:19px;min-height:0}
+      .download-icon{width:72px;height:72px}
+      .download-actions{display:grid;grid-template-columns:1fr;gap:8px}
+      .download-actions .btn{width:100%}
+      .contact-links{display:grid;grid-template-columns:1fr 1fr}
+      .contact-link{min-width:0}
+    }
+    @media(max-width:420px){
+      .contact-links{grid-template-columns:1fr}
+      .project-link{font-size:9px}
+      .section-title{font-size:clamp(48px,16vw,70px)}
+    }
+</style>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
