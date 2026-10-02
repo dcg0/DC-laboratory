@@ -68,12 +68,15 @@
     .contact-links{gap:12px}
     .contact-link{min-height:46px}
     .project-card,.download-card{content-visibility:auto;contain-intrinsic-size:420px}
+    .project-card{height:460px;min-height:460px}
+    .project-card.featured{height:460px}
     @media(max-width:720px){
       .shell{width:min(100% - 30px,560px)}
       .section{padding:82px 0}
       .section-head{margin-bottom:30px}
       .project-grid,.service-grid,.download-grid{gap:14px}
       .project-content{padding:21px}
+      .project-card,.project-card.featured{height:460px;min-height:460px}
       .download-card{padding:19px;min-height:0}
       .download-icon{width:72px;height:72px}
       .download-actions{display:grid;grid-template-columns:1fr;gap:8px}
