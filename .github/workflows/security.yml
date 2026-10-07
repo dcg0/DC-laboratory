@@ -42,10 +42,37 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if grep -RIn --include='*.html' 'target="_blank"' . | grep -v 'rel="noopener"'; then
-            echo 'Every target=_blank link must include rel="noopener".' >&2
-            exit 1
-          fi
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          class TargetLinkChecker(HTMLParser):
+              def __init__(self, path):
+                  super().__init__()
+                  self.path = path
+                  self.failures = []
+
+              def handle_starttag(self, tag, attrs):
+                  if tag != 'a':
+                      return
+                  attrs = dict(attrs)
+                  if attrs.get('target') == '_blank':
+                      rel = {item.lower() for item in (attrs.get('rel') or '').split()}
+                      if 'noopener' not in rel:
+                          self.failures.append(self.path)
+
+          failures = []
+          for page in sorted(Path('.').rglob('*.html')):
+              if '.git' in page.parts or 'node_modules' in page.parts:
+                  continue
+              checker = TargetLinkChecker(page)
+              checker.feed(page.read_text(encoding='utf-8', errors='strict'))
+              failures.extend(checker.failures)
+          if failures:
+              print('\n'.join(str(path) for path in failures))
+              raise SystemExit('Every target=_blank link must include rel="noopener".')
+          print('All target=_blank links include rel="noopener".')
+          PY
 
       - name: Verify security metadata on every published HTML page
         shell: bash
