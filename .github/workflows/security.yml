@@ -1,0 +1,112 @@
+name: Security checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  static-security:
+    name: Static security checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Detect likely secrets in tracked text files
+        shell: bash
+        run: |
+          set -euo pipefail
+          begin_word='BEGIN'
+          dash_prefix='-----'
+          gh_prefix='gh'
+          patterns="$begin_word (RSA|EC|OPENSSH|PGP) PRIVATE KEY|AKIA[0-9A-Z]{16}|${gh_prefix}[pousr]_[A-Za-z0-9_]{20,}|AIza[0-9A-Za-z_-]{35}|${dash_prefix}${begin_word}"
+          if git grep -n -I -E "$patterns" -- . ':!SECURITY.md'; then
+            echo 'Potential secret detected. Remove it and rotate it before merging.' >&2
+            exit 1
+          fi
+
+      - name: Verify published download checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s downloads/DCA-ChromeOS.apk
+          test -s downloads/DCA-ChromeOS.apk.sha256
+          sha256sum -c downloads/DCA-ChromeOS.apk.sha256
+
+      - name: Check for unsafe external target links
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          class TargetLinkChecker(HTMLParser):
+              def __init__(self, path):
+                  super().__init__()
+                  self.path = path
+                  self.failures = []
+
+              def handle_starttag(self, tag, attrs):
+                  if tag != 'a':
+                      return
+                  attrs = dict(attrs)
+                  if attrs.get('target') == '_blank':
+                      rel = {item.lower() for item in (attrs.get('rel') or '').split()}
+                      if 'noopener' not in rel:
+                          self.failures.append(self.path)
+
+          failures = []
+          for page in sorted(Path('.').rglob('*.html')):
+              if '.git' in page.parts or 'node_modules' in page.parts:
+                  continue
+              checker = TargetLinkChecker(page)
+              checker.feed(page.read_text(encoding='utf-8', errors='strict'))
+              failures.extend(checker.failures)
+          if failures:
+              print('\n'.join(str(path) for path in failures))
+              raise SystemExit('Every target=_blank link must include rel="noopener".')
+          print('All target=_blank links include rel="noopener".')
+          PY
+
+      - name: Verify CSP and Referrer meta policies on every published HTML page
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          # This check validates document meta policies only; it does not claim to verify HTTP response headers.
+          required = (
+              'http-equiv="Content-Security-Policy"',
+              'name="referrer"',
+          )
+          pages = sorted(
+              path for path in Path('.').rglob('*.html')
+              if '.git' not in path.parts and 'node_modules' not in path.parts
+          )
+          if not pages:
+              raise SystemExit('No published HTML pages found')
+          failures = []
+          for page in pages:
+              text = page.read_text(encoding='utf-8', errors='strict')
+              missing = [item for item in required if item.lower() not in text.lower()]
+              if missing:
+                  failures.append(f'{page}: missing {", ".join(missing)}')
+          if failures:
+              print('\n'.join(failures))
+              raise SystemExit('Security metadata check failed')
+          print(f'CSP and Referrer meta policies present on {len(pages)} HTML pages')
+          PY
+
+      - name: Verify vulnerability reporting file
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s .well-known/security.txt
+          grep -q '^Contact: https://github.com/dcg0/DC-laboratory/security/advisories/new$' .well-known/security.txt

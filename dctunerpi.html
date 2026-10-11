@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; frame-src 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; worker-src 'self'; manifest-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+<title>DCstudioRPI — DC Laboratory</title>
+<meta name="description" content="DCstudioRPI: diagnóstico y sintonización ECU para Raspberry Pi, basado en DCtuneRstudio.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;900&family=DM+Mono:wght@400;500&display=swap');
+:root{--bg:#030805;--panel:#07150d;--panel2:#041009;--line:#18552c;--cyan:#39ff88;--red:#a6ff00;--gold:#d8ff57;--muted:#9bc5aa;--white:#eaffef}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 72% 0%,#0d4b2a 0,#030805 42%);color:var(--white);font-family:'DM Mono',monospace}a{color:inherit}.shell{width:min(1120px,calc(100% - 36px));margin:auto}.back{display:inline-block;margin:26px 0 8px;color:var(--cyan);font-size:11px;text-decoration:none;letter-spacing:.12em}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center;padding:48px 0 42px}.tag,.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:.16em;text-transform:uppercase}.hero h1{margin:14px 0 12px;font:900 clamp(70px,11vw,140px)/.78 'Barlow Condensed',sans-serif;letter-spacing:-.04em;text-transform:uppercase;color:var(--white);text-shadow:5px 5px 0 #0b522a}.hero h1 span{color:var(--red)}.lead{max-width:610px;color:#c3e8cd;font-size:15px;line-height:1.8}.hero-art{width:100%;border:1px solid #2bd66a;padding:9px;background:#060a10;box-shadow:22px 24px 0 #03150a,0 0 50px #39ff8844;transform:rotate(1.5deg)}.hero-art img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.section{padding:34px 0;border-top:1px solid #18552c}.section h2{margin:0 0 10px;font:900 clamp(32px,5vw,58px)/.9 'Barlow Condensed',sans-serif;text-transform:uppercase}.section-intro{color:var(--muted);line-height:1.7;max-width:760px}.downloads{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}.download{display:block;padding:23px;background:linear-gradient(135deg,#0b2a17,#07150d);border:1px solid #258b49;text-decoration:none;transition:.2s}.download:hover{border-color:var(--cyan);transform:translateY(-3px)}.download small{display:block;color:var(--cyan);font-size:10px;letter-spacing:.14em}.download strong{display:block;margin:9px 0 6px;font:700 29px 'Barlow Condensed',sans-serif;text-transform:uppercase}.download span{color:var(--muted);font-size:11px}.download b{display:block;margin-top:17px;color:var(--gold);font-size:11px;letter-spacing:.1em}.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}.fact{padding:19px;border-left:3px solid var(--cyan);background:var(--panel2)}.fact b{display:block;color:var(--gold);font-size:12px;margin-bottom:7px}.fact span{color:var(--muted);font-size:12px;line-height:1.6}.related{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}.related-card{display:flex;flex-direction:column;min-height:300px;background:var(--panel);border:1px solid var(--line);overflow:hidden;text-decoration:none}.related-card:hover{border-color:var(--cyan);box-shadow:0 0 24px #39ff8833}.related-card img{width:100%;height:160px;object-fit:cover;filter:saturate(.8)}.related-card div{padding:15px}.related-card small{color:var(--cyan);font-size:9px;letter-spacing:.12em}.related-card h3{margin:8px 0 5px;font:700 25px 'Barlow Condensed',sans-serif;text-transform:uppercase}.related-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.55}.related-card em{display:block;margin-top:15px;color:var(--gold);font-style:normal;font-size:10px}.note{margin:24px 0 45px;color:#8193a6;font-size:11px;line-height:1.7}.note a{color:var(--cyan)}.visual-lab{margin:20px 0 8px;padding:16px;border:1px solid #238542;background:linear-gradient(135deg,#06150b,#0a2412);box-shadow:0 0 28px #39ff8822}.visual-lab h3{margin:0 0 8px;color:var(--cyan);font:700 25px 'Barlow Condensed',sans-serif;text-transform:uppercase}.visual-lab p{margin:0;color:var(--muted);font-size:11px;line-height:1.6}.image-wall{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:10px;margin-top:15px}.image-wall img{display:block;width:100%;height:160px;object-fit:cover;border:1px solid #267a41;filter:saturate(.92) hue-rotate(65deg);transition:.2s}.image-wall img:first-child{grid-row:span 2;height:330px}.image-wall img:hover{filter:saturate(1.2);border-color:var(--cyan);box-shadow:0 0 18px #39ff8844}@media(max-width:760px){.image-wall{grid-template-columns:1fr 1fr}.image-wall img:first-child{grid-row:span 1;height:180px}.image-wall img{height:130px}.related{grid-template-columns:1fr 1fr}}@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:25px}.hero-art{order:-1}.downloads,.facts,.related{grid-template-columns:1fr}.hero h1{font-size:88px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<a class="back" href="./">← DC LABORATORY</a>
+<section class="hero">
+  <div>
+    <p class="tag">ECU TOOL · RASPBERRY PI</p>
+    <h1>DCstudio<span>RPI</span></h1>
+    <p class="lead">Una edición de DCtuneRstudio preparada para convertir una Raspberry Pi en una estación compacta de diagnóstico y sintonización ECU. Conecta tu interfaz, abre tus mapas y trabaja con una herramienta pensada para equipos ARM de bajo consumo.</p>
+    <p class="eyebrow">DCtuneRstudio // Raspberry Pi edition</p>
+  </div>
+  <div class="hero-art"><img src="dcstudio-rpi-card.png" alt="Raspberry Pi junto a una interfaz de sintonización ECU en un taller"></div>
+</section>
+<section class="section visual-lab">
+  <h3>Visuales // Raspberry Pi + DCtuneRPI</h3>
+  <p>Una estación compacta de diagnóstico, sintonización y telemetría: Raspberry Pi, pantalla SPI de 3.5 pulgadas y la familia visual de DCtuneRstudio.</p>
+  <div class="image-wall">
+    <img src="dcstudio-rpi-card.png" alt="Raspberry Pi y DCtuneRstudio en taller cyberpunk">
+    <img src="dc-tuner-studio-card.jpg" alt="DC Tuner Studio en un taller">
+    <img src="studioDC.jpg" alt="DC Tuner Studio y vehículos">
+    <img src="dctunerrojo.jpg" alt="DC studio Red para ECU">
+    <img src="DCstudio.png" alt="DC studio Blue para telemetría">
+    <img src="dcstudio-rpi-video-reference.png" alt="Raspberry Pi con pantalla SPI de 3.5 pulgadas y dashboard ECU">
+    <img src="dcstudio-rpi-macro.png" alt="Detalle macro de Raspberry Pi, pantalla SPI y cable OBD">
+    <img src="dcstudio-rpi-workbench.png" alt="Estación cyberpunk de Raspberry Pi para diagnóstico ECU">
+  </div>
+</section>
+<section class="section">
+  <h2>Descarga directa</h2>
+  <p class="section-intro">Elige el paquete según la arquitectura de tu Raspberry Pi. Los archivos se sirven directamente desde el repositorio oficial de DCtuneRstudio.</p>
+  <div class="downloads">
+    <a class="download" href="https://github.com/dcg0/DCtuneRstudio/raw/refs/heads/main/releases/DCtuneRstudio-raspberry-arm64.zip" target="_blank" rel="noopener">
+      <small>RASPBERRY PI · 64 BITS</small><strong>ARM64</strong><span>Archivo ZIP · Raspberry Pi OS 64-bit · descarga directa</span><b>DESCARGAR AHORA ↓</b>
+    </a>
+    <a class="download" href="https://github.com/dcg0/DCtuneRstudio/raw/refs/heads/main/releases/DCtuneRstudio-raspberry-armv7.zip" target="_blank" rel="noopener">
+      <small>RASPBERRY PI · 32 BITS</small><strong>ARMv7</strong><span>Archivo ZIP · Raspberry Pi OS 32-bit · descarga directa</span><b>DESCARGAR AHORA ↓</b>
+    </a>
+  </div>
+  <div class="facts"><div class="fact"><b>PARA QUÉ SIRVE</b><span>Diagnóstico, mapas, telemetría y análisis de ECU desde una Raspberry Pi.</span></div><div class="fact"><b>BASE DEL PROYECTO</b><span>La experiencia DCtuneRstudio adaptada a hardware ARM compacto y de bajo consumo.</span></div><div class="fact"><b>ANTES DE INSTALAR</b><span>Verifica la arquitectura de tu sistema y revisa la documentación del adaptador ECU.</span></div></div>
+</section>
+<section class="section">
+  <h2>Familia DCtuneRstudio</h2>
+  <p class="section-intro">Explora las demás tarjetas relacionadas con diagnóstico, telemetría y sintonización automotriz dentro de DC Laboratory.</p>
+  <div class="related">
+    <a class="related-card" href="dctuner.html"><img src="dc-tuner-studio-card.jpg" alt="DCtuneRstudio en un taller automotriz"><div><small>ECU TOOL · MULTIPLATAFORMA</small><h3>DCtuneRstudio</h3><p>Edición principal para PC, Windows, Linux, macOS, Raspberry Pi y navegador.</p><em>Abrir página y descargas ↗</em></div></a>
+    <a class="related-card" href="https://dcg62572-svg.github.io/DClab/" target="_blank" rel="noopener"><img src="studioDC.jpg" alt="DC Tuner Studio en el laboratorio"><div><small>TUNER STUDIO · ECU</small><h3>DC Tuner Studio #1</h3><p>Diagnóstico y sintonización automotriz con visualización y ajuste de datos del vehículo.</p><em>Abrir página del producto ↗</em></div></a>
+    <a class="related-card" href="dctuner.html"><img src="dctunerrojo.jpg" alt="DC studio Red para ECU"><div><small>ECU TOOL · 32 BIT</small><h3>DC studio Red</h3><p>Clon mejorado de TunerStudio MS, multiplataforma y sin dependencias externas.</p><em>Ver página y descargas ↗</em></div></a>
+    <a class="related-card" href="https://dcg0.github.io/DC-tuner-studio-site/" target="_blank" rel="noopener"><img src="DCstudio.png" alt="DC studio Blue para telemetría ECU"><div><small>TELEMETRY · ECU</small><h3>DC studio Blue</h3><p>Telemetría, ajuste ECU, sensores, gráficas y mapas para Speeduino, MegaSquirt y ELM327.</p><em>Abrir página del producto ↗</em></div></a>
+  </div>
+</section>
+<p class="note">DCstudioRPI forma parte de la familia DC Laboratory. Para soporte, versiones y código fuente consulta el <a href="https://github.com/dcg0/DCtuneRstudio" target="_blank" rel="noopener">repositorio oficial de DCtuneRstudio ↗</a>.</p>
+</main>
+</body>
+</html>
