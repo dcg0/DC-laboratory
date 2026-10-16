@@ -21,14 +21,39 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          begin_word='BEGIN'
-          dash_prefix='-----'
-          gh_prefix='gh'
-          patterns="$begin_word (RSA|EC|OPENSSH|PGP) PRIVATE KEY|AKIA[0-9A-Z]{16}|${gh_prefix}[pousr]_[A-Za-z0-9_]{20,}|AIza[0-9A-Za-z_-]{35}|${dash_prefix}${begin_word}"
-          if git grep -n -I -E "$patterns" -- . ':!SECURITY.md'; then
+          private_key='-----BEGIN [A-Z ]*PRIVATE KEY-----'
+          aws_key='(AKIA|ASIA)[0-9A-Z]{16}'
+          github_token='(gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,})'
+          patterns="$private_key|$aws_key|$github_token|AIza[0-9A-Za-z_-]{35}"
+          if git grep -n -I -E -e "$patterns" -- . ':!SECURITY.md' ':!.github/workflows/security.yml'; then
             echo 'Potential secret detected. Remove it and rotate it before merging.' >&2
             exit 1
           fi
+
+      - name: Validate helper Python syntax
+        shell: bash
+        run: python3 -m compileall -q tools
+
+      - name: Parse published HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          pages = sorted(
+              path for path in Path('.').rglob('*.html')
+              if '.git' not in path.parts and 'node_modules' not in path.parts
+          )
+          if not pages:
+              raise SystemExit('No published HTML pages found')
+          for page in pages:
+              parser = HTMLParser()
+              parser.feed(page.read_text(encoding='utf-8', errors='strict'))
+              parser.close()
+          print(f'Parsed {len(pages)} HTML pages')
+          PY
 
       - name: Verify published download checksum
         shell: bash
