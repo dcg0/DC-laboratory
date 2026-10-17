@@ -97,7 +97,17 @@
       .project-link{font-size:9px}
       .section-title{font-size:clamp(48px,16vw,70px)}
     }
-</style>
+
+    /* Plataformas: solo iconos, sin tarjetas ni marcos cuadrados */
+    .contact-links{gap:20px;align-items:center}
+    .contact-link{min-width:0;min-height:0;padding:4px;background:transparent;border:0;border-radius:0;box-shadow:none;color:var(--cyan);gap:0}
+    .contact-link:hover{transform:translateY(-4px);border:0;background:transparent;box-shadow:none;color:#fff}
+    .contact-link>span:last-child{display:none}
+    .contact-link-mark{width:64px;height:64px;flex:0 0 64px;border:0;border-radius:50%;background:transparent;overflow:visible;box-shadow:none;color:inherit}
+    .contact-link-mark img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px currentColor)}
+    .contact-link:nth-child(2) .contact-link-mark,.contact-link:nth-child(3) .contact-link-mark,.contact-link:nth-child(4) .contact-link-mark,.contact-link:nth-child(5) .contact-link-mark{border:0;box-shadow:none}
+    @media(max-width:720px){.contact-links{gap:18px}.contact-link{min-height:0}.contact-link-mark{width:58px;height:58px;flex-basis:58px}}
+  </style>
 </head>
 <body>
 <a class="skip-link" href="#contenido">Saltar al contenido</a>
