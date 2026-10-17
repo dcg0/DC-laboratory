@@ -107,6 +107,15 @@
     .contact-link-mark img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 10px currentColor)}
     .contact-link:nth-child(2) .contact-link-mark,.contact-link:nth-child(3) .contact-link-mark,.contact-link:nth-child(4) .contact-link-mark,.contact-link:nth-child(5) .contact-link-mark{border:0;box-shadow:none}
     @media(max-width:720px){.contact-links{gap:18px}.contact-link{min-height:0}.contact-link-mark{width:58px;height:58px;flex-basis:58px}}
+  
+    /* Cuadrícula de plataformas: sin cuadros, bordes ni fondos */
+    .download-grid{gap:22px}
+    .download-card,.download-card:hover{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0}
+    .download-card:after{display:none}
+    .download-card .download-icon{width:min(100%,140px);height:auto;aspect-ratio:1;margin:0;border:0!important;border-radius:50%;overflow:visible;background:transparent!important;box-shadow:none!important}
+    .download-card .download-icon img{object-fit:contain;filter:drop-shadow(0 0 12px #00ccff55)}
+    .download-card .download-icon.icon-symbol{background:transparent!important;box-shadow:none!important}
+    @media(max-width:720px){.download-grid{gap:16px}.download-card .download-icon{width:100%}}
   </style>
 </head>
 <body>
