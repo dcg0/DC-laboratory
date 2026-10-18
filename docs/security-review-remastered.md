@@ -162,7 +162,7 @@ El estado consolidado es el de un sitio estático sin una vulnerabilidad de inye
 
 ## Addendum — estado posterior a remasterización y validación (18 de octubre de 2026)
 
-> La matriz y los hallazgos anteriores describen la auditoría estática previa a las correcciones. Este addendum registra lo aplicado y probado después; sus estados actualizados prevalecen cuando contradicen los hallazgos históricos. El trabajo se mantiene en `feat/remastered-homepage`, PR [#8](https://github.com/dcg0/DC-laboratory/pull/8), hacia `main`; todavía no se debe interpretar como desplegado en producción.
+> La matriz y los hallazgos anteriores describen la auditoría estática previa a las correcciones. Este addendum registra lo aplicado y probado después; sus estados actualizados prevalecen cuando contradicen los hallazgos históricos. La PR [#8](https://github.com/dcg0/DC-laboratory/pull/8) se fusionó a `main` el 18 de octubre de 2026 en el commit `799c50d2da018fa69bedf719615d3112153adcd2`. GitHub Pages sigue configurado para publicar desde `fix/downloads-as-project-cards`, por lo que la portada pública aún no refleja este commit; no cambié esa configuración.
 
 ### Cambios y remediaciones incorporadas
 
@@ -182,7 +182,7 @@ El estado consolidado es el de un sitio estático sin una vulnerabilidad de inye
 | Lighthouse — móvil | Rendimiento **89**, accesibilidad **100**, buenas prácticas **100**, SEO **100**. FCP/LCP 3.0 s, TBT 0 ms, CLS 0.028; cero diagnósticos de texto visible omitido del nombre accesible. |
 | Lighthouse — escritorio | Rendimiento **95**, accesibilidad **100**, buenas prácticas **100**, SEO **100**. FCP/LCP 0.8 s, TBT 0 ms, CLS 0.117; cero diagnósticos de texto visible omitido del nombre accesible. |
 | Código y repositorio | `node --check` para scripts locales y bundle DCM2000, `compileall` Python, sintaxis YAML, escaneo heurístico de secretos y `git diff --check`: **sin errores**. El SHA-256 de `downloads/DCA-ChromeOS.apk` coincide con su archivo publicado. |
-| Build estático | El repositorio no define un `Gemfile`/comando Jekyll ni un empaquetado de aplicación; se validaron y sirvieron los archivos estáticos directamente en Chromium. GitHub Pages aún debe completar su despliegue automático al fusionar. |
+| Build estático y publicación | El repositorio no define un `Gemfile`/comando Jekyll ni un empaquetado de aplicación; se validaron y sirvieron los archivos estáticos directamente en Chromium. Tras la fusión, la API de Pages aún reportaba el build anterior y la URL pública devolvía HTTP 200 con contenido antiguo; la fuente de Pages está configurada en otra rama. |
 
 Las puntuaciones se midieron sobre un servidor estático local con Lighthouse y pueden variar por red/dispositivo. La prueba local no confirma la compresión, la caché ni las cabeceras HTTP del hosting de producción.
 
@@ -193,7 +193,7 @@ Las puntuaciones se midieron sobre un servidor estático local con Lighthouse y 
 3. **Fuentes web y CLS.** Lighthouse atribuye el CLS de escritorio (0.117) a la sustitución de fuentes remotas. El CSS de Google Fonts continúa siendo render-blocking (ahorro estimado del diagnóstico local: 1,490 ms móvil y 370 ms escritorio). Una siguiente mejora es autoalojar fuentes con licencia compatible o calibrar fuentes de reserva (`size-adjust`/métricas) y volver a medir sin sacrificar el diseño.
 4. **Imágenes restantes.** Lighthouse aún estima ahorros adicionales de carga adaptable de alrededor de 33 KiB en móvil y 258 KiB en escritorio, según viewport/DPR. Son oportunidades de refinamiento, no errores ni recursos rotos.
 5. **Cadena de suministro.** El escaneo añadido es heurístico y las GitHub Actions siguen referenciadas por tags; fijarlas por SHA y sumar un escáner de secretos mantenido mejoraría la defensa. El checksum validado es el de DCA-ChromeOS; esto no constituye una auditoría de firma, reproducibilidad ni permisos de todas las APK.
-6. **Verificación en producción.** Tras fusionar, revisar que GitHub Pages publique el commit correcto, comprobar las 14 rutas y recursos públicos y medir allí Lighthouse y cabeceras HTTP reales.
+6. **Publicación efectiva.** La fuente de Pages está configurada en `fix/downloads-as-project-cards` y la URL pública aún entrega la versión anterior. No cambié esa configuración porque cambiaría el sitio público; para publicar esta versión, se requiere cambiar la fuente a `main` y luego verificar rutas, recursos, Lighthouse y cabeceras HTTP reales.
 
 ### Referencias externas observadas durante la medición
 
