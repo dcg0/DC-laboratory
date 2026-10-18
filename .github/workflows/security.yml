@@ -15,7 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          persist-credentials: false
 
       - name: Detect likely secrets in tracked text files
         shell: bash
@@ -54,6 +55,10 @@ jobs:
               parser.close()
           print(f'Parsed {len(pages)} HTML pages')
           PY
+
+      - name: Validate local routes, anchors, CSP and sitemap
+        shell: bash
+        run: python3 tools/check_site_links.py
 
       - name: Verify published download checksum
         shell: bash
