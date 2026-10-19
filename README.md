@@ -1,9 +1,9 @@
 🌎🌐🚀🔗🌐🔗🌐🔗🌐🔗🌐
 
-**[dcg0.github.io/DC-laboratory](https://dcg0.github.io/DC-laboratory/)**
+🔗**[https://dcg0.github.io/El-laboratorio/]
 
 🌎🌐🚀🔗🌐🔗🌐🔗🌐🔗🌐
-
+🔗****[https://dcg0.github.io/El-laboratorio/]
 <p align="center">
   <img src="portadaprincipal.png" alt="DC Laboratory — identidad visual de laboratorio y 3D" width="720">
 </p>
