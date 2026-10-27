@@ -2,6 +2,10 @@
 
 🔗**[https://dcg0.github.io/El-laboratorio/]
 
+
+
+ESTADÍSTICAS
+Estadísticas Lenguajes Racha de actividad
 🌎🌐🚀🔗🌐🔗🌐🔗🌐🔗🌐
 🔗****[https://dcg0.github.io/El-laboratorio/]
 <p align="center">
