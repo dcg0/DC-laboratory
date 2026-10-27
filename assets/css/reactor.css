@@ -1,0 +1,35 @@
+/* DC Laboratory — Reactor UI layer */
+:root{color-scheme:dark;scroll-padding-top:96px}
+html{background:#050508}
+.lab-backdrop{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background-image:linear-gradient(180deg,rgba(5,5,8,.34) 0%,rgba(5,5,8,.64) 40%,rgba(5,5,8,.91) 100%),url("../dc-lab-reactor-bg.webp");background-size:100% 100%,cover;background-position:center,center 12%;background-repeat:no-repeat,no-repeat;will-change:transform}
+.lab-backdrop:before{content:"";position:absolute;inset:-14%;background:radial-gradient(ellipse at 16% 24%,rgba(0,204,255,.17),transparent 34%),radial-gradient(ellipse at 82% 19%,rgba(255,49,84,.14),transparent 32%),radial-gradient(ellipse at 55% 70%,rgba(92,74,255,.08),transparent 42%);filter:blur(12px);animation:reactorAurora 26s ease-in-out infinite alternate}
+.reactor-canvas{position:fixed;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;opacity:.32;mix-blend-mode:screen}
+.site-header{z-index:20}
+main{position:relative;z-index:2}
+footer{position:relative;z-index:2}
+.scroll-meter{position:fixed;z-index:101;left:0;right:0;top:0;height:3px;pointer-events:none;background:rgba(255,255,255,.05)}
+.scroll-meter span{display:block;width:100%;height:100%;transform:scaleX(0);transform-origin:left center;background:linear-gradient(90deg,#00ccff,#a47cff 58%,#ff3154);box-shadow:0 0 12px rgba(0,204,255,.72)}
+.services{background:linear-gradient(180deg,rgba(8,11,18,.85),rgba(8,11,18,.92))}
+.project-card[class*="tone-"]{--card-accent:#71eaff;position:relative;isolation:isolate;border-color:color-mix(in srgb,var(--card-accent) 40%,#202b3d);background-image:linear-gradient(145deg,color-mix(in srgb,var(--card-accent) 9%,#0d111b),#0d111b 58%,#090b11)}
+.project-card.tone-cyan{--card-accent:#70edff}
+.project-card.tone-black{--card-accent:#d9e7f7;background-image:linear-gradient(135deg,#35404d 0%,#090b10 42%,#141b25 100%)}
+.project-card.tone-purple{--card-accent:#c895ff;background-image:linear-gradient(135deg,#261831,#11131f 70%)}
+.project-card.tone-yellow{--card-accent:#ffdf68;background-image:linear-gradient(135deg,#2c2511,#15141b 72%)}
+.project-card.tone-red{--card-accent:#ff8296;background-image:linear-gradient(135deg,#28121b,#17121c 72%)}
+.project-card.tone-blue{--card-accent:#72b6ff;background-image:linear-gradient(135deg,#101e34,#0d121c 72%)}
+.project-card.tone-green{--card-accent:#69ffc0;background-image:linear-gradient(135deg,#0d211d,#101b20 72%)}
+.project-card.tone-orange{--card-accent:#ffae65;background-image:linear-gradient(135deg,#302012,#17141b 72%)}
+.project-card[class*="tone-"] .tag{color:var(--card-accent);border-color:color-mix(in srgb,var(--card-accent) 55%,transparent);background:rgba(7,10,16,.72)}
+.project-card[class*="tone-"] .project-link,.project-card[class*="tone-"] .project-link span{color:var(--card-accent)}
+.project-card[class*="tone-"]:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(340px circle at var(--pointer-x,50%) var(--pointer-y,50%),color-mix(in srgb,var(--card-accent) 18%,transparent),transparent 72%);transition:opacity .28s ease}
+.project-card[class*="tone-"]:hover:after{opacity:1}
+.project-card[class*="tone-"]>.webp-picture,.project-card[class*="tone-"]>img,.project-card[class*="tone-"]>.project-content{position:relative;z-index:2}
+.project-card[class*="tone-"]:hover{border-color:var(--card-accent);box-shadow:0 18px 45px rgba(0,0,0,.58),0 0 22px color-mix(in srgb,var(--card-accent) 22%,transparent)}
+.project-card.tone-black.glossy{background-image:linear-gradient(125deg,#46505d 0%,#202630 14%,#090b10 34%,#141a22 68%,#3a4552 100%);border-color:#a6b3c2;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 12px 35px rgba(0,0,0,.65),0 0 28px rgba(201,224,255,.12)}
+.hero-card{transform-origin:center;animation:reactorFloat 10s ease-in-out infinite}
+.nav a,.btn,.project-card,.service{transition-timing-function:cubic-bezier(.22,1,.36,1)}
+:focus-visible{outline:2px solid #8ceeff;outline-offset:4px}
+@keyframes reactorAurora{0%{transform:translate3d(-1.5%,0,0) scale(1)}100%{transform:translate3d(1.5%,1%,0) scale(1.06)}}
+@keyframes reactorFloat{0%,100%{transform:translate3d(0,0,0) rotate(2deg)}50%{transform:translate3d(0,-8px,0) rotate(1.2deg)}}
+@media(max-width:720px){.lab-backdrop{background-position:center,center top;background-size:100% 100%,auto 68vh}.reactor-canvas{opacity:.16}.hero-card{animation:none;transform:none}.project-card[class*="tone-"]:after{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lab-backdrop:before,.hero-card{animation:none!important}.project-card[class*="tone-"]:after{transition:none}}
