@@ -3,5 +3,14 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: monthly
-    open-pull-requests-limit: 5
+      interval: weekly
+      day: monday
+      time: "03:30"
+      timezone: America/Mexico_City
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: ci
+      include: scope

@@ -1,0 +1,7 @@
+# Revisión predeterminada del repositorio
+* @dcg0
+
+# Seguridad y automatizaciones
+/.github/ @dcg0
+/SECURITY.md @dcg0
+/.well-known/security.txt @dcg0

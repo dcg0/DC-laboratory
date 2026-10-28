@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -7,8 +8,11 @@ CSP = (
     "base-uri 'none'; "
     "object-src 'none'; "
     "frame-ancestors 'none'; "
+    "frame-src 'none'; "
     "form-action 'self'; "
     "script-src 'self' 'unsafe-inline'; "
+    "worker-src 'self'; "
+    "manifest-src 'self'; "
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
     "font-src 'self' https://fonts.gstatic.com; "
     "img-src 'self' data: https:; "
@@ -24,17 +28,26 @@ SECURITY_META = (
     '  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">'
 )
 
-for path in sorted(ROOT.glob("*.html")):
+HTML_FILES = sorted(
+    path for path in ROOT.rglob("*.html")
+    if ".git" not in path.parts and "node_modules" not in path.parts
+)
+
+for path in HTML_FILES:
     text = path.read_text(encoding="utf-8")
     if 'http-equiv="Content-Security-Policy"' not in text:
-        marker = '<meta name="viewport"'
-        start = text.find(marker)
-        if start == -1:
+        viewport = re.search(r'<meta\b[^>]*\bname=["\']viewport["\'][^>]*>', text, re.I | re.S)
+        if viewport is None:
             raise SystemExit(f"No viewport meta found in {path}")
-        end = text.find('>', start)
-        if end == -1:
-            raise SystemExit(f"Malformed viewport meta in {path}")
-        text = text[: end + 1] + "\n  " + SECURITY_META + text[end + 1 :]
+        end = viewport.end()
+        text = text[:end] + "\n  " + SECURITY_META + text[end:]
+    text = text.replace(
+        "frame-ancestors 'none'; form-action",
+        "frame-ancestors 'none'; frame-src 'none'; form-action",
+    ).replace(
+        "script-src 'self' 'unsafe-inline'; style-src",
+        "script-src 'self' 'unsafe-inline'; worker-src 'self'; manifest-src 'self'; style-src",
+    )
     text = text.replace(
         "if(alert)alert.innerHTML=rule?'<strong>Alerta preventiva</strong> '+rule[1]:'<strong>Tip de Lucy</strong> Usa filtros, responsables y respaldos para mantener una operación estable.';",
         "if(alert)alert.textContent=rule?'Alerta preventiva '+rule[1]:'Tip de Lucy Usa filtros, responsables y respaldos para mantener una operación estable.';",
@@ -71,5 +84,5 @@ for path in sorted(ROOT.glob("*.html")):
     encoding="utf-8",
 )
 
-print(f"Hardened {len(list(ROOT.glob('*.html')))} HTML pages")
+print(f"Hardened {len(HTML_FILES)} HTML pages")
 print("Updated robots.txt, .well-known/security.txt and _headers")

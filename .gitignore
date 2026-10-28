@@ -17,4 +17,6 @@ Thumbs.db
 dist/
 build/
 coverage/
+__pycache__/
+*.py[cod]
 *.log
