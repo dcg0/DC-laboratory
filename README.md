@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/dc-laboratory-banner.png" alt="DC Laboratory" width="100%">
+</p>
+
 🔗https://dcg0.github.io/DC-laboratory/
 
  href="https://github.com/dcg0/DC-laboratory/actions/workflows/security.yml"><img src="https://github.com/dcg0/DC-laboratory/actions/workflows/security.yml/badge.svg" alt="Security checks"></a>
