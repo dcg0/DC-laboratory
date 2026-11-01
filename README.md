@@ -32,9 +32,7 @@ Abrir el laboratorio
   <img src="https://img.shields.io/badge/made%20in-M%C3%A9xico-green" alt="Hecho en México">
   <img src="https://img.shields.io/badge/PRs-welcome-blueviolet" alt="PRs bienvenidos">
   <img src="https://img.shields.io/badge/platform-Android%20%7C%20Windows%20%7C%20Linux-informational" alt="Plataformas soportadas">
-</p>"Visitar el portal web" (https://dcg0.github.io/El-laboratorio/) · "Ver las comprobaciones" (https://github.com/dcg0/El-laboratorio/actions) · "Reportar un problema" (https://github.com/dcg0/El-laboratorio/issues)
-
-Información y contacto
+</p>
 
 Para ideas, colaboraciones o solicitudes de desarrollo, visita el "sitio oficial" (https://dcg0.github.io/DC-laboratory/) o el perfil de "GitHub" (https://github.com/dcg0).
 
