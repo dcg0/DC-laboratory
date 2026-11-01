@@ -1,16 +1,13 @@
-El Laboratorio · DC Laboratory
+· DC Laboratory
 
 Portal de proyectos, herramientas y documentación de diagnóstico automotriz, sistemas embebidos y automatización.
-
-
-
 <p align="center">
   <a href="https://dcg0.github.io/El-laboratorio/">
     <img src="assets/dc-laboratory-banner.png" alt="DC Laboratory - El Laboratorio" width="100%" />
   </a>
 </p>---
 
-Abrir el laboratorio
+enlace directo al laboratorio 
 
 <p>
   <a href="https://github.com/dcg0/DC-laboratory/actions/workflows/security.yml">
