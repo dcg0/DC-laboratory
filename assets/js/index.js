@@ -27,16 +27,78 @@ if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches)r
 let tick=0;setInterval(()=>{tick++;const latValue=(25.6866+(48-cur.y)*0.0009).toFixed(4),lonValue=(100.3161+(cur.x-52)*0.001).toFixed(4),altValue=Math.round(537+(48-cur.y)*0.6+Math.sin(tick/4)*2),signalValue=(98.1+Math.sin(tick/3)*.5).toFixed(1);lat.textContent=latValue+'° N';lon.textContent=lonValue+'° O';alt.textContent=altValue+' M';signal.textContent=signalValue+'%';if(time)time.textContent=new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'});state.textContent=pausing?'PUNTO '+(ri)+' / '+route.length+' ALCANZADO':'SEGUIMIENTO ACTIVO'},1000)})();
     (function(){const trigger=document.getElementById('lucy-chat-trigger'),panel=document.getElementById('lucy-chat-panel'),close=document.getElementById('lucy-chat-close'),search=document.getElementById('lucy-chat-search'),knowledge=document.getElementById('lucy-chat-knowledge'),invite=document.getElementById('lucy-invite'),inviteOpen=document.getElementById('lucy-invite-open'),video=document.getElementById('lucy-chat-video');if(!trigger||!panel)return;let closeTimer=0;function positionPanel(){const tr=(trigger.offsetParent===null?trigger.closest('.lucy-chat-dock'):trigger).getBoundingClientRect(),spaceAbove=tr.top-12,spaceBelow=window.innerHeight-tr.bottom-12;panel.style.maxHeight=Math.min(640,Math.max(220,window.innerHeight-32))+'px';if(spaceAbove>=Math.min(640,window.innerHeight-32)||spaceAbove>=spaceBelow){panel.style.top='auto';panel.style.bottom='58px'}else{panel.style.top='58px';panel.style.bottom='auto'}}function openChat(event){if(event){event.preventDefault();event.stopPropagation()}window.clearTimeout(closeTimer);panel.hidden=false;trigger.setAttribute('aria-expanded','true');panel.classList.remove('lucy-fade-out');panel.classList.add('lucy-fade-in');positionPanel();if(invite){invite.hidden=true;invite.classList.remove('is-visible')}video&&video.play().catch(()=>{});setTimeout(()=>search&&search.focus(),80)}function closeChat(event){if(event){event.preventDefault();event.stopPropagation()}video&&(video.pause(),video.currentTime=0);panel.classList.remove('lucy-fade-in');panel.classList.add('lucy-fade-out');window.clearTimeout(closeTimer);closeTimer=window.setTimeout(()=>{panel.hidden=true;panel.classList.remove('lucy-fade-out')},430);trigger.setAttribute('aria-expanded','false')}close&&close.addEventListener('click',closeChat);inviteOpen&&inviteOpen.addEventListener('click',openChat);document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)closeChat()});const dragState={active:false,moved:false,startX:0,startY:0,startLeft:0,startTop:0};let suppressClick=false;function clampPosition(left,top){const margin=8,maxLeft=Math.max(margin,window.innerWidth-trigger.offsetWidth-margin),maxTop=Math.max(margin,window.innerHeight-trigger.offsetHeight-margin);return [Math.min(Math.max(margin,left),maxLeft),Math.min(Math.max(margin,top),maxTop)]}function restorePosition(){try{const saved=JSON.parse(localStorage.getItem('dc-lucy-position'));if(saved&&Number.isFinite(saved.left)&&Number.isFinite(saved.top)){const pos=clampPosition(saved.left,saved.top);dock.style.left=pos[0]+'px';dock.style.top=pos[1]+'px';dock.style.bottom='auto'}}catch(_){}}function savePosition(){try{const r=trigger.getBoundingClientRect();localStorage.setItem('dc-lucy-position',JSON.stringify({left:Math.round(r.left),top:Math.round(r.top)}))}catch(_){}}const dock=trigger.closest('.lucy-chat-dock');restorePosition();trigger.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;const r=trigger.getBoundingClientRect();dragState.active=true;dragState.moved=false;dragState.startX=e.clientX;dragState.startY=e.clientY;dragState.startLeft=r.left;dragState.startTop=r.top;trigger.classList.add('is-dragging');trigger.setPointerCapture?.(e.pointerId);e.preventDefault()});trigger.addEventListener('pointermove',e=>{if(!dragState.active)return;const dx=e.clientX-dragState.startX,dy=e.clientY-dragState.startY;if(Math.abs(dx)>4||Math.abs(dy)>4)dragState.moved=true;if(!dragState.moved)return;const pos=clampPosition(dragState.startLeft+dx,dragState.startTop+dy);dock.style.left=pos[0]+'px';dock.style.top=pos[1]+'px';dock.style.bottom='auto';e.preventDefault()});trigger.addEventListener('pointerup',e=>{if(!dragState.active)return;dragState.active=false;trigger.classList.remove('is-dragging');if(dragState.moved){suppressClick=true;savePosition();window.setTimeout(()=>{suppressClick=false},80)}try{trigger.releasePointerCapture?.(e.pointerId)}catch(_){} });trigger.addEventListener('click',e=>{if(suppressClick){e.preventDefault();e.stopPropagation();return}panel.hidden?openChat(e):closeChat(e)});window.addEventListener('resize',()=>{if(dock.style.top&&dock.style.top!=='auto'){const r=trigger.getBoundingClientRect(),pos=clampPosition(r.left,r.top);dock.style.left=pos[0]+'px';dock.style.top=pos[1]+'px';savePosition()}if(!panel.hidden)positionPanel()});document.addEventListener('click',e=>{if(!panel.hidden&&!panel.contains(e.target)&&!trigger.contains(e.target))closeChat()});const normalize=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();const compose=document.getElementById('lucy-chat-compose'),chatInput=document.getElementById('lucy-chat-input'),messages=document.getElementById('lucy-chat-messages');function addMessage(text,kind){if(!messages)return;const item=document.createElement('p');item.className='lucy-chat-message '+kind;item.textContent=text;messages.appendChild(item);messages.scrollTop=messages.scrollHeight}function lucyReply(text){const query=normalize(text);if(!query)return 'Escribe una pregunta y te ayudo a encontrar un proyecto del laboratorio.';if(query.includes('elm327')||query.includes('obd'))return 'DC-ELM327 sirve para diagnóstico OBD-II, datos en vivo, DTC y conexiones Bluetooth, USB o Wi-Fi. Revisa su tarjeta en Proyectos.';if(query.includes('git')||query.includes('repositorio'))return 'Para descargar un proyecto usa git clone URL. También puedes abrir el repositorio GitHub desde la tarjeta correspondiente.';if(query.includes('descarga')||query.includes('apk'))return 'Busca la tarjeta del proyecto y usa sus enlaces oficiales de descarga. Conserva el checksum SHA-256 cuando esté publicado.';if(query.includes('servicio')||query.includes('pagina')||query.includes('proyecto'))return 'Puedo orientarte sobre proyectos web, apps, ECU, telemetría, automatización y servicios. Prueba con: DC-ELM327, Git, descargas o servicios.';if(query.includes('hola')||query.includes('lucy'))return 'Hola, soy Lucy. Pregúntame por los proyectos, repositorios, descargas o comandos Git de DC Laboratory.';return 'Puedo ayudarte con DC-ELM327, proyectos, repositorios Git, descargas y servicios. Prueba escribiendo una de esas palabras.'}compose&&compose.addEventListener('submit',event=>{event.preventDefault();const text=(chatInput?.value||'').trim();if(!text)return;addMessage(text,'user');if(chatInput)chatInput.value='';window.setTimeout(()=>addMessage(lucyReply(text),'lucy'),180)});search&&search.addEventListener('input',()=>{const terms=normalize(search.value).split(/\s+/).filter(Boolean);knowledge&&knowledge.querySelectorAll('.lucy-chat-topic').forEach(topic=>{const haystack=normalize((topic.dataset.search||'')+' '+topic.textContent),compact=haystack.replace(/\s/g,'');topic.hidden=Boolean(terms.length&&!terms.every(term=>haystack.includes(term)||compact.includes(term.replace(/\s/g,''))))})});let inviteTimer=0;function showInvite(){if(!invite||!panel.hidden)return;window.clearTimeout(inviteTimer);invite.hidden=false;requestAnimationFrame(()=>invite.classList.add('is-visible'));inviteTimer=window.setTimeout(hideInvite,5000)}function hideInvite(){if(!invite)return;invite.classList.remove('is-visible');window.setTimeout(()=>{if(!invite.classList.contains('is-visible'))invite.hidden=true},300)}invite&&invite.addEventListener('click',e=>{if(!e.target.closest('#lucy-invite-open')&&inviteOpen)inviteOpen.click()});setInterval(showInvite,120000)})();
 
-    (async function(){const body=document.getElementById('mini-term-body');if(!body)return;const sleep=ms=>new Promise(r=>setTimeout(r,ms));const MAX=10;
-    function put(t){const l=(body.textContent?body.textContent.split('\n'):[]);l.push(t);body.textContent=l.slice(-MAX).join('\n')}
-    async function typeCmd(c){put('root@dc-linux:~# '+c);await sleep(700)}
-    const bar=(p,w)=>{const n=Math.round(p/100*w);return '['+'|'.repeat(n)+' '.repeat(w-n)+']'};
-    const rnd=(a,b)=>Math.round(a+Math.random()*(b-a));
-    async function fastfetch(){body.textContent='';await typeCmd('fastfetch');const rows=['  ######   #####',' ##   ##  ##   ##',' ##   ##  ##',' ##   ##  ##   ##','  ######   #####','OS: DC Linux OS 13 (Debian 13)','CPU: TR PRO 9995WX · 96C/192T','GPU: RTX PRO 6000 Blackwell · 96GB','RAM: 512GB DDR5 ECC · User: root'];for(const r of rows){put(r);await sleep(300)}await sleep(2600)}
-    async function htop(){body.textContent='';await typeCmd('htop');const end=Date.now()+8000;while(Date.now()<end){const c=[rnd(20,80),rnd(10,70),rnd(15,60),rnd(5,50)];body.textContent=['CPU00-23 '+bar(c[0],9)+' '+c[0]+'%','CPU24-47 '+bar(c[1],9)+' '+c[1]+'%','CPU48-71 '+bar(c[2],9)+' '+c[2]+'%','CPU72-95 '+bar(c[3],9)+' '+c[3]+'%','MEM 82G/512G DDR5 ECC','GPU RTX PRO 6000 · '+rnd(20,65)+'%','PID USER CPU% COMMAND','1042 root 12.0 dc-shell','1187 root  4.2 fastfetch'].join('\n');await sleep(900)}}
-    async function scan(){body.textContent='';await typeCmd('./dc-elm327 --scan');const msgs=['[ok] Bluetooth SPP conectado','[rx] 010C RPM 1820','[rx] 010D VEL 42 km/h','[rx] 0105 TEMP 88 C','[ok] DTC: ninguno','[rx] 012F COMB 64 %','[ok] Datos en vivo activos'];for(const m of msgs){put(m);await sleep(620)}await sleep(2200)}
-    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){body.textContent='root@dc-linux:~# fastfetch\n  ######   #####\n ##   ##  ##   ##\n ##   ##  ##\n ##   ##  ##   ##\n  ######   #####\nOS: DC Linux OS 13 (Debian 13)\nCPU: TR PRO 9995WX · 96C/192T\nGPU: RTX PRO 6000 Blackwell · 96GB\nRAM: 512GB DDR5 ECC · User: root';return}
-    while(true){await fastfetch();await htop();await scan()}})();
-
+    (async function(){
+      const body=document.getElementById('mini-term-body');
+      if(!body)return;
+      const form=document.getElementById('mini-term-form');
+      const input=document.getElementById('mini-term-command');
+      const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+      const MAX=10;
+      const logo=[' ######    #####',' ##   ##  ##  ##',' ##   ##  ##  ',' ##   ##  ##  ##',' ###### 🐧#####'];
+      const specs=['OS: DC Linux OS 13 (Debian 13)','CPU: TR PRO 9995WX · 96C/192T','GPU: RTX PRO 6000 Blackwell · 96GB','RAM: 512GB DDR5 ECC · User: root'];
+      let interactiveMode=false;
+      let monitorTimer=null;
+      function put(line){const lines=body.textContent?body.textContent.split('\n'):[];lines.push(line);body.textContent=lines.slice(-MAX).join('\n')}
+      async function typeCmd(command){if(interactiveMode)return false;put('root@dc-linux:~# '+command);await sleep(700);return !interactiveMode}
+      const bar=(percent,width)=>{const filled=Math.round(percent/100*width);return '['+'|'.repeat(filled)+' '.repeat(width-filled)+']'};
+      const rnd=(min,max)=>Math.round(min+Math.random()*(max-min));
+      function stopMonitor(){if(monitorTimer!==null){clearInterval(monitorTimer);monitorTimer=null}}
+      async function fastfetch(){
+        if(interactiveMode)return;
+        body.textContent='';
+        if(!await typeCmd('fastfetch'))return;
+        for(const line of [...logo,...specs]){if(interactiveMode)return;put(line);await sleep(300)}
+        if(!interactiveMode)await sleep(2600)
+      }
+      async function htop(){
+        if(interactiveMode)return;
+        body.textContent='';
+        if(!await typeCmd('htop'))return;
+        const end=Date.now()+8000;
+        while(Date.now()<end&&!interactiveMode){
+          const cpu=[rnd(20,80),rnd(10,70),rnd(15,60),rnd(5,50)];
+          body.textContent=['CPU00-23 '+bar(cpu[0],9)+' '+cpu[0]+'%','CPU24-47 '+bar(cpu[1],9)+' '+cpu[1]+'%','CPU48-71 '+bar(cpu[2],9)+' '+cpu[2]+'%','CPU72-95 '+bar(cpu[3],9)+' '+cpu[3]+'%','MEM 82G/512G DDR5 ECC','GPU RTX PRO 6000 · '+rnd(20,65)+'%','PID USER CPU% COMMAND','1042 root 12.0 dc-shell','1187 root  4.2 fastfetch'].join('\n');
+          await sleep(900)
+        }
+      }
+      async function scan(){
+        if(interactiveMode)return;
+        body.textContent='';
+        if(!await typeCmd('./dc-elm327 --scan'))return;
+        const messages=['[ok] Bluetooth SPP conectado','[rx] 010C RPM 1820','[rx] 010D VEL 42 km/h','[rx] 0105 TEMP 88 C','[ok] DTC: ninguno','[rx] 012F COMB 64 %','[ok] Datos en vivo activos'];
+        for(const message of messages){if(interactiveMode)return;put(message);await sleep(620)}
+        if(!interactiveMode)await sleep(2200)
+      }
+      function showFastfetch(command){
+        stopMonitor();interactiveMode=true;
+        body.textContent=['root@dc-linux:~# '+command,...logo,...specs].join('\n')
+      }
+      function startMonitor(command){
+        stopMonitor();interactiveMode=true;
+        function render(){
+          const cpu=Array.from({length:4},()=>rnd(4,92));
+          const average=Math.round(cpu.reduce((sum,value)=>sum+value,0)/cpu.length);
+          const label=command==='htop'?'HTOP · DATOS SIMULADOS':'DCMON · DATOS SIMULADOS';
+          body.textContent=['root@dc-linux:~# '+command,label,'CPU AVG '+bar(average,8)+' '+average+'%','CPU00-23 '+bar(cpu[0],8)+' '+cpu[0]+'%','CPU24-47 '+bar(cpu[1],8)+' '+cpu[1]+'%','CPU48-71 '+bar(cpu[2],8)+' '+cpu[2]+'%','CPU72-95 '+bar(cpu[3],8)+' '+cpu[3]+'%','MEM 82G/512G · GPU '+rnd(20,65)+'%','Actualizado '+new Date().toLocaleTimeString('es-MX',{hour12:false}),'help · exit'].join('\n')
+        }
+        render();monitorTimer=setInterval(render,1000)
+      }
+      function runCommand(raw){
+        const command=raw.trim().toLowerCase();
+        if(!command)return;
+        interactiveMode=true;stopMonitor();
+        if(command==='fastfetch'||command==='neofetch'){showFastfetch(command);return}
+        if(command==='htop'||command==='top'||command==='dcmon'){startMonitor(command);return}
+        if(command==='help'||command==='?'){body.textContent=['root@dc-linux:~# help','Comandos disponibles:','fastfetch · neofetch','htop · top · dcmon','whoami · uname -a','clear · exit','CPU/GPU: uso simulado en vivo'].join('\n');return}
+        if(command==='whoami'){body.textContent='root@dc-linux:~# whoami\nroot';return}
+        if(command==='uname -a'){body.textContent='root@dc-linux:~# uname -a\nLinux dc-linux 6.12.0-amd64 x86_64 GNU/Linux';return}
+        if(command==='clear'){body.textContent='';return}
+        if(command==='exit'){body.textContent='root@dc-linux:~# exit\nTerminal demo pausada. Recarga para reanudar la animación.';return}
+        body.textContent='root@dc-linux:~# '+command+'\nComando no disponible. Escribe help.'
+      }
+      if(form&&input)form.addEventListener('submit',event=>{event.preventDefault();const command=input.value;input.value='';runCommand(command)});
+      if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){showFastfetch('fastfetch');return}
+      while(!interactiveMode){await fastfetch();if(interactiveMode)return;await htop();if(interactiveMode)return;await scan()}
+    })();
     (async function(){const cnt=document.getElementById('projects-count');if(!cnt)return;const sleep=ms=>new Promise(r=>setTimeout(r,ms));const show=n=>cnt.textContent=String(n).padStart(2,'0');
     while(true){for(let n=9;n<=23;n++){show(n);await sleep(1100)}await sleep(10000);for(let n=23;n>=9;n--){show(n);await sleep(90)}await sleep(600)}})();
