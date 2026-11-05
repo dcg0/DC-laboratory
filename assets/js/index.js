@@ -29,14 +29,14 @@ let tick=0;setInterval(()=>{tick++;const latValue=(25.6866+(48-cur.y)*0.0009).to
 
     (async function(){const body=document.getElementById('mini-term-body');if(!body)return;const sleep=ms=>new Promise(r=>setTimeout(r,ms));const MAX=10;
     function put(t){const l=(body.textContent?body.textContent.split('\n'):[]);l.push(t);body.textContent=l.slice(-MAX).join('\n')}
-    async function typeCmd(c){put('$ '+c);await sleep(700)}
+    async function typeCmd(c){put('root@dc-linux:~# '+c);await sleep(700)}
     const bar=(p,w)=>{const n=Math.round(p/100*w);return '['+'|'.repeat(n)+' '.repeat(w-n)+']'};
     const rnd=(a,b)=>Math.round(a+Math.random()*(b-a));
-    async function neofetch(){body.textContent='';await typeCmd('neofetch');const rows=['dc@lab','OS: MX Linux x86_64','Host: Dell Laptop','Kernel: 6.x LTS','Uptime: 3 days, 4 h','Shell: bash 5.2','CPU: Intel i5 @ 2.4GHz','Memory: 4.2G / 16G'];for(const r of rows){put(r);await sleep(380)}await sleep(2600)}
-    async function htop(){body.textContent='';await typeCmd('htop');const end=Date.now()+8000;while(Date.now()<end){const c=[rnd(20,80),rnd(10,70),rnd(15,60),rnd(5,50)];body.textContent=['CPU0 '+bar(c[0],12)+' '+c[0]+'%','CPU1 '+bar(c[1],12)+' '+c[1]+'%','CPU2 '+bar(c[2],12)+' '+c[2]+'%','CPU3 '+bar(c[3],12)+' '+c[3]+'%','Mem  '+bar(rnd(30,60),12)+' 4.2G','','  PID %CPU CMD','1042 '+c[0]+'.0 dc-scan','1187 '+c[1]+'.0 lucy-srv','1290 '+c[2]+'.0 elm327','  987  1.2 sshd'].join('\n');await sleep(900)}}
+    async function fastfetch(){body.textContent='';await typeCmd('fastfetch');const rows=['  DDDDD   CCCCC','  DD  DD CC   CC','  DD  DD CC','  DD  DD CC   CC','  DDDDD   CCCCC','OS: DC Linux OS 13 (Debian 13)','CPU: TR PRO 9995WX · 96C/192T','GPU: RTX PRO 6000 Blackwell · 96GB','RAM: 512GB DDR5 ECC · User: root'];for(const r of rows){put(r);await sleep(300)}await sleep(2600)}
+    async function htop(){body.textContent='';await typeCmd('htop');const end=Date.now()+8000;while(Date.now()<end){const c=[rnd(20,80),rnd(10,70),rnd(15,60),rnd(5,50)];body.textContent=['CPU00-23 '+bar(c[0],9)+' '+c[0]+'%','CPU24-47 '+bar(c[1],9)+' '+c[1]+'%','CPU48-71 '+bar(c[2],9)+' '+c[2]+'%','CPU72-95 '+bar(c[3],9)+' '+c[3]+'%','MEM 82G/512G DDR5 ECC','GPU RTX PRO 6000 · '+rnd(20,65)+'%','PID USER CPU% COMMAND','1042 root 12.0 dc-shell','1187 root  4.2 fastfetch'].join('\n');await sleep(900)}}
     async function scan(){body.textContent='';await typeCmd('./dc-elm327 --scan');const msgs=['[ok] Bluetooth SPP conectado','[rx] 010C RPM 1820','[rx] 010D VEL 42 km/h','[rx] 0105 TEMP 88 C','[ok] DTC: ninguno','[rx] 012F COMB 64 %','[ok] Datos en vivo activos'];for(const m of msgs){put(m);await sleep(620)}await sleep(2200)}
-    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){body.textContent='$ neofetch\ndc@lab\nOS: MX Linux x86_64\nUptime: 3 days';return}
-    while(true){await neofetch();await htop();await scan()}})();
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){body.textContent='root@dc-linux:~# fastfetch\n  DDDDD   CCCCC\n  DD  DD CC   CC\n  DD  DD CC\n  DD  DD CC   CC\n  DDDDD   CCCCC\nOS: DC Linux OS 13 (Debian 13)\nCPU: TR PRO 9995WX · 96C/192T\nGPU: RTX PRO 6000 Blackwell · 96GB\nRAM: 512GB DDR5 ECC · User: root';return}
+    while(true){await fastfetch();await htop();await scan()}})();
 
     (async function(){const cnt=document.getElementById('projects-count');if(!cnt)return;const sleep=ms=>new Promise(r=>setTimeout(r,ms));const show=n=>cnt.textContent=String(n).padStart(2,'0');
     while(true){for(let n=9;n<=23;n++){show(n);await sleep(1100)}await sleep(10000);for(let n=23;n>=9;n--){show(n);await sleep(90)}await sleep(600)}})();
