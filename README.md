@@ -15,7 +15,7 @@
 
 ---
 
-## 🧪 Sobre el laboratorio
+## 📟Sobre el laboratorio
 
 Mi espacio de desarrollo donde combino software, hardware y mecánica:
 diagnóstico OBD-II, sistemas Linux, IA local, juegos y diseño 3D/CNC.
